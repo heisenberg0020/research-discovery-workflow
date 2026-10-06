@@ -1,0 +1,163 @@
+{
+  "artifact_source": "<WORKSPACE>/output",
+  "artifact_source_is_workspace_output": true,
+  "artifact_source_note": "An explicit artifact root may be a retained snapshot; it is not the CLI workspace",
+  "boundaries": [
+    "Sanitized public copies, not raw transcripts or proof of research quality",
+    "Only selected completed items, turn usage, and explicit errors are published",
+    "No spawn, isolation, missing message, missing usage, or successful science is inferred",
+    "Paths and identifiers are mechanically masked; independent public review is still required",
+    "Only known source/home prefixes, recognized private filesystem roots, and file URIs are masked; other abstract paths and mathematical division are retained",
+    "Local links in sanitized Markdown become label plus code path; URL links and scientific prose are retained"
+  ],
+  "events": {
+    "blank_lines": 0,
+    "count_note": "incomplete_events is a schema diagnostic and can overlap unknown_events",
+    "incomplete_events": 0,
+    "malformed_events": 0,
+    "malformed_lines": [],
+    "omitted_item_fields": 0,
+    "omitted_other_events": 2,
+    "omitted_reasoning_events": 0,
+    "omitted_tool_state_events": 26,
+    "selected_events": 33,
+    "total_lines": 61,
+    "turn_completed_events": 1,
+    "unknown_events": 0
+  },
+  "explicit_artifact_root": false,
+  "format_version": 1,
+  "masked_identifier_count": 1,
+  "missing_raw_files": [],
+  "omitted_files": [],
+  "public_files": {
+    "final.md": "b7a49483b10a05b075d24880da0db173e4bb8ecda6faa75fdc8b965e44bd9f77",
+    "invocation.json": "cd211c818d10ecd25bf870f63910365825bc1bc24f25b8c3c28348c237408905",
+    "output/first-pass/DISCOVERY.md": "006d7baadf2052c404f878e478c75f1ff675ad1effbc7d59d1682396383b41fe",
+    "output/first-pass/EVIDENCE.md": "14983718c263aa06e9d59fdaaf120293504857a5343e901fc53fcb1d9afa8372",
+    "output/first-pass/FINAL.md": "cfed627a2b1966b8d1c9d1f155a1915d027641cc3d7dd931c5b89846cf1d31eb",
+    "output/first-pass/Q1-T.md": "0aaf9b2ecbbe953b6f65d658e878c74ae9c4d5edabffdc8b2551bbbbbe396735",
+    "output/first-pass/Q1-U.md": "ec9f04714c96b7d9d0cc1824da9471f6dda2ea0f5070731d696053322b6ca8fd",
+    "output/first-pass/Q5-R-review.md": "1edfd1a0242a72092bf76c4815810c833105cbbfe7d518bdf56f975e8af2b7fa",
+    "output/first-pass/Q5-original.md": "9c3481c86e4ae7d30c625a8c68760e6d00bcbdd01db6d2033e7f8e81498d8eca",
+    "output/first-pass/Q5-original.sha256": "3d340634defbcb1712175838051aab7530a8a5e56aa45c355989cb911c50649f",
+    "output/first-pass/Q5-repaired.md": "d2feff563a511c245ac77255bc54e28d28a4340843a5e66c658ca019d7444102",
+    "output/first-pass/Q7-A-plan.md": "f3b5faddf9b42c51e2bee515d3e0564962124351b30fc42d7567b2d1d25e2874",
+    "output/first-pass/RUN.md": "7bc488c5c9284a4714a97a389a8d719f3bc1218762eb18d56cf805bce1081b35",
+    "prompt.md": "130fed411f3bbe21bf2d356e62426db37546c0da873bc968497192bf5e7dad47",
+    "result.json": "4e1d31df7404204cdabbab777b385889863a0d1788dde47cad7a43022bc7ba51",
+    "transcript.jsonl": "dfeed7f25541bb11a0325987dbc10648bf01e9a685a2bb21c84db0b243239354",
+    "usage.json": "7b134485ffec3782cd74ed16e8edc7a0da84a8fedde5d5f322066407d9b1be53"
+  },
+  "raw_sources": [
+    {
+      "bytes": 654,
+      "kind": "record",
+      "relative_path": "invocation.json",
+      "sha256": "81c647579cca77497d6c018728fe3cfd91f81f075d14e3f5a11528877194c56e"
+    },
+    {
+      "bytes": 807,
+      "kind": "record",
+      "relative_path": "prompt.md",
+      "sha256": "130fed411f3bbe21bf2d356e62426db37546c0da873bc968497192bf5e7dad47"
+    },
+    {
+      "bytes": 152602,
+      "kind": "record",
+      "relative_path": "events.jsonl",
+      "sha256": "51be09856f0f6077e863ee290f65dd09e90d3281dfbca17ee268bc4dcbaaff83"
+    },
+    {
+      "bytes": 3312,
+      "kind": "record",
+      "relative_path": "final.md",
+      "sha256": "fc727bb2287614695531a99a69b127d62dd835b1c8f8683debf8e1bbb6b12fe8"
+    },
+    {
+      "bytes": 74,
+      "kind": "record",
+      "relative_path": "result.json",
+      "sha256": "424bc939b4a4fb23dcd1629c5ae27ed3239b2060c64d8b1123dfc96ba7b8960a"
+    },
+    {
+      "bytes": 4427,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/DISCOVERY.md",
+      "sha256": "006d7baadf2052c404f878e478c75f1ff675ad1effbc7d59d1682396383b41fe"
+    },
+    {
+      "bytes": 1561,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/EVIDENCE.md",
+      "sha256": "14983718c263aa06e9d59fdaaf120293504857a5343e901fc53fcb1d9afa8372"
+    },
+    {
+      "bytes": 4305,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/FINAL.md",
+      "sha256": "cfed627a2b1966b8d1c9d1f155a1915d027641cc3d7dd931c5b89846cf1d31eb"
+    },
+    {
+      "bytes": 4988,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/Q1-T.md",
+      "sha256": "0aaf9b2ecbbe953b6f65d658e878c74ae9c4d5edabffdc8b2551bbbbbe396735"
+    },
+    {
+      "bytes": 4905,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/Q1-U.md",
+      "sha256": "ec9f04714c96b7d9d0cc1824da9471f6dda2ea0f5070731d696053322b6ca8fd"
+    },
+    {
+      "bytes": 6703,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/Q5-R-review.md",
+      "sha256": "1edfd1a0242a72092bf76c4815810c833105cbbfe7d518bdf56f975e8af2b7fa"
+    },
+    {
+      "bytes": 2631,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/Q5-original.md",
+      "sha256": "9c3481c86e4ae7d30c625a8c68760e6d00bcbdd01db6d2033e7f8e81498d8eca"
+    },
+    {
+      "bytes": 81,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/Q5-original.sha256",
+      "sha256": "3d340634defbcb1712175838051aab7530a8a5e56aa45c355989cb911c50649f"
+    },
+    {
+      "bytes": 3737,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/Q5-repaired.md",
+      "sha256": "d2feff563a511c245ac77255bc54e28d28a4340843a5e66c658ca019d7444102"
+    },
+    {
+      "bytes": 4561,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/Q7-A-plan.md",
+      "sha256": "f3b5faddf9b42c51e2bee515d3e0564962124351b30fc42d7567b2d1d25e2874"
+    },
+    {
+      "bytes": 2772,
+      "kind": "artifact",
+      "relative_path": "output/first-pass/RUN.md",
+      "sha256": "7bc488c5c9284a4714a97a389a8d719f3bc1218762eb18d56cf805bce1081b35"
+    }
+  ],
+  "redactions": {
+    "final_local_markdown_links": 2,
+    "home_paths": 0,
+    "identifier_occurrences": 6,
+    "markdown_local_links": 2,
+    "omitted_history_fields": 0,
+    "other_absolute_paths": 0,
+    "record_paths": 1,
+    "repository_paths": 0,
+    "workspace_paths": 11
+  },
+  "source_record": "<RECORD>",
+  "source_workspace": "<WORKSPACE>"
+}

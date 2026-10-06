@@ -28,7 +28,7 @@ This portable Skill supports open-ended topic selection, literature-to-idea synt
 
 It is a planning Skill, not an experiment execution harness. Its default work is literature, theory, and static code understanding. Planning does not authorize implementation, training, or experiments.
 
-Repository **v1.2.0** improves onboarding and public teaching examples. The scientific workflow remains the byte-frozen **v1.0.0** workflow; see the [freeze boundary](docs/FROZEN_WORKFLOW.md) and [changelog](CHANGELOG.md). Earlier releases remain available.
+Repository **v1.3.0** adds actual client and fictional behavior evidence alongside onboarding and public teaching examples. The scientific workflow remains the byte-frozen **v1.0.0** workflow; see the [freeze boundary](docs/FROZEN_WORKFLOW.md) and [changelog](CHANGELOG.md). Earlier releases remain available.
 
 ## Quick start
 
@@ -137,6 +137,8 @@ These checks cover public repository contracts and behavior represented by ficti
 
 If this is a new terminal, select and check `RDW_PYTHON` again before running these commands.
 
+The [actual Codex CLI receipt](docs/validation-runs/2026-10-06-codex-cli/README.md#english-summary) retains six one-attempt fictional runs, sanitized output/artifacts and reported usage. These demonstrate the listed local reading and behavior paths, not internal auto-registration, child isolation or research quality. GUI and other hosts remain untested. Live capture is opt-in and consumes account quota; unit tests and CI never launch it.
+
 ## Docs
 
 | Read this | For |
@@ -146,7 +148,7 @@ If this is a new terminal, select and check `RDW_PYTHON` again before running th
 | [English compatibility](docs/compatibility.en.md) | Host capabilities, fresh-context limits, and optional integrations |
 | [Annotated English case](examples/deadline-information/README_EN.md) | Understand concrete proposals, repairs and delayed handoff |
 | [English neutral brief](examples/neutral-brief.en.md) | Editable optional starting input |
-| [Frozen workflow](docs/FROZEN_WORKFLOW.md) | The scientific v1.0.0 boundary retained by repository v1.2.0 |
+| [Frozen workflow](docs/FROZEN_WORKFLOW.md) | The scientific v1.0.0 boundary retained by repository v1.3.0 |
 | [English quickstart](docs/QUICKSTART.en.md) | The original workflow usage guide |
 | [中文启动提示](docs/STARTER_PROMPTS.zh-CN.md) | Chinese starter prompts |
 | [Validation](docs/VALIDATION.md) | Package checks, fictional fixtures, and claims they cannot establish |

@@ -1,0 +1,24 @@
+{
+  "auth_mode": "existing ChatGPT login",
+  "command": [
+    "codex",
+    "exec",
+    "--ignore-user-config",
+    "--ignore-rules",
+    "--ephemeral",
+    "--skip-git-repo-check",
+    "--sandbox",
+    "workspace-write",
+    "--json",
+    "--color",
+    "never",
+    "--cd",
+    "<WORKSPACE>",
+    "--output-last-message",
+    "<RECORD>/final.md",
+    "-"
+  ],
+  "model_override": null,
+  "started_at": "2026-10-06T07:22:15.229258+00:00",
+  "timeout_seconds": 900
+}

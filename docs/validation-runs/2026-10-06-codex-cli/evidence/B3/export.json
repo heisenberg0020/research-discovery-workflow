@@ -1,0 +1,114 @@
+{
+  "artifact_source": "<WORKSPACE>/output",
+  "artifact_source_is_workspace_output": true,
+  "artifact_source_note": "An explicit artifact root may be a retained snapshot; it is not the CLI workspace",
+  "boundaries": [
+    "Sanitized public copies, not raw transcripts or proof of research quality",
+    "Only selected completed items, turn usage, and explicit errors are published",
+    "No spawn, isolation, missing message, missing usage, or successful science is inferred",
+    "Paths and identifiers are mechanically masked; independent public review is still required",
+    "Only known source/home prefixes, recognized private filesystem roots, and file URIs are masked; other abstract paths and mathematical division are retained",
+    "Local links in sanitized Markdown become label plus code path; URL links and scientific prose are retained"
+  ],
+  "events": {
+    "blank_lines": 0,
+    "count_note": "incomplete_events is a schema diagnostic and can overlap unknown_events",
+    "incomplete_events": 0,
+    "malformed_events": 0,
+    "malformed_lines": [],
+    "omitted_item_fields": 0,
+    "omitted_other_events": 2,
+    "omitted_reasoning_events": 0,
+    "omitted_tool_state_events": 4,
+    "selected_events": 8,
+    "total_lines": 14,
+    "turn_completed_events": 1,
+    "unknown_events": 0
+  },
+  "explicit_artifact_root": false,
+  "format_version": 1,
+  "masked_identifier_count": 0,
+  "missing_raw_files": [],
+  "omitted_files": [],
+  "public_files": {
+    "final.md": "7bc48afcabf1eab588ebacf81768e3f2c5bdfee8d5d5086f9cbb5135d6b5e7ae",
+    "invocation.json": "f110d793568841805790e96311468e562542cba50ad057bd50e03f6e56d4443d",
+    "output/PLAN.md": "fc9d10709deae2d5aa0ebb0debdfa44e3deb9d623f1fddaee767d455558bf59a",
+    "output/REVIEW.md": "6aabfcc85596c29c8d91e70a44ba2bab0c62878d5a14e34d5348601ddd3af926",
+    "output/RUN.md": "043adaed7343ea38ad099b65eb98a6c17d37d00cf18b7724cf9bb68a2d2a1f7e",
+    "output/SUPPLIED-SNAPSHOT.md": "93120c124a1837f3742efa5dbfc2cdf29b6496143d9f29c4cbc3c95b9f42b0d0",
+    "prompt.md": "c7a4fbf596bc580360efd4bd279792fa069164880112707f97246931c1d9fc0c",
+    "result.json": "b7dba8ceb8fbdc07b6e0bfe8871960fa66947fabf18de443b58f9464e02b73a6",
+    "transcript.jsonl": "fa7141a35d36b2623c05d75900260fe19c03d80cb806f9f25e5d1a66c906425e",
+    "usage.json": "dbb81b73f6188721ce94d4a9bdf5d8465635f6770841f26401f1f24ffc9e7546"
+  },
+  "raw_sources": [
+    {
+      "bytes": 654,
+      "kind": "record",
+      "relative_path": "invocation.json",
+      "sha256": "37874ec9cddc4b13b2beef53245e52132b4b40ef9e4156a1a106c371534081b1"
+    },
+    {
+      "bytes": 723,
+      "kind": "record",
+      "relative_path": "prompt.md",
+      "sha256": "c7a4fbf596bc580360efd4bd279792fa069164880112707f97246931c1d9fc0c"
+    },
+    {
+      "bytes": 73723,
+      "kind": "record",
+      "relative_path": "events.jsonl",
+      "sha256": "996fc5595ff46984a9b05af181cc3f67e783c9aec922f6b02f55785057b2b09b"
+    },
+    {
+      "bytes": 1859,
+      "kind": "record",
+      "relative_path": "final.md",
+      "sha256": "f258a9d5e3f65285a504229ded6dbfe23a832d83a59ec91e75c3c7660bf064f8"
+    },
+    {
+      "bytes": 74,
+      "kind": "record",
+      "relative_path": "result.json",
+      "sha256": "99a26bb5bf5db6bc5bbcc4bce521f54181100ae1ace661d6ebfc604d3378b506"
+    },
+    {
+      "bytes": 7397,
+      "kind": "artifact",
+      "relative_path": "output/PLAN.md",
+      "sha256": "fc9d10709deae2d5aa0ebb0debdfa44e3deb9d623f1fddaee767d455558bf59a"
+    },
+    {
+      "bytes": 1749,
+      "kind": "artifact",
+      "relative_path": "output/REVIEW.md",
+      "sha256": "6aabfcc85596c29c8d91e70a44ba2bab0c62878d5a14e34d5348601ddd3af926"
+    },
+    {
+      "bytes": 1179,
+      "kind": "artifact",
+      "relative_path": "output/RUN.md",
+      "sha256": "043adaed7343ea38ad099b65eb98a6c17d37d00cf18b7724cf9bb68a2d2a1f7e"
+    },
+    {
+      "bytes": 3433,
+      "kind": "artifact",
+      "relative_path": "output/SUPPLIED-SNAPSHOT.md",
+      "sha256": "93120c124a1837f3742efa5dbfc2cdf29b6496143d9f29c4cbc3c95b9f42b0d0"
+    }
+  ],
+  "redactions": {
+    "final_local_markdown_links": 1,
+    "home_paths": 0,
+    "identifier_occurrences": 0,
+    "markdown_local_links": 1,
+    "omitted_history_fields": 0,
+    "other_absolute_paths": 2,
+    "record_paths": 1,
+    "repository_paths": 0,
+    "workspace_paths": 3
+  },
+  "source_record": "<RECORD>",
+  "source_workspace": "<WORKSPACE>"
+}

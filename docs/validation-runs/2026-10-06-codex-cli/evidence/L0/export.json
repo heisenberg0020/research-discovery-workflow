@@ -1,0 +1,86 @@
+{
+  "artifact_source": "<WORKSPACE>/output",
+  "artifact_source_is_workspace_output": true,
+  "artifact_source_note": "An explicit artifact root may be a retained snapshot; it is not the CLI workspace",
+  "boundaries": [
+    "Sanitized public copies, not raw transcripts or proof of research quality",
+    "Only selected completed items, turn usage, and explicit errors are published",
+    "No spawn, isolation, missing message, missing usage, or successful science is inferred",
+    "Paths and identifiers are mechanically masked; independent public review is still required",
+    "Only known source/home prefixes, recognized private filesystem roots, and file URIs are masked; other abstract paths and mathematical division are retained",
+    "Local links in sanitized Markdown become label plus code path; URL links and scientific prose are retained"
+  ],
+  "events": {
+    "blank_lines": 0,
+    "count_note": "incomplete_events is a schema diagnostic and can overlap unknown_events",
+    "incomplete_events": 0,
+    "malformed_events": 0,
+    "malformed_lines": [],
+    "omitted_item_fields": 0,
+    "omitted_other_events": 2,
+    "omitted_reasoning_events": 0,
+    "omitted_tool_state_events": 4,
+    "selected_events": 7,
+    "total_lines": 13,
+    "turn_completed_events": 1,
+    "unknown_events": 0
+  },
+  "explicit_artifact_root": false,
+  "format_version": 1,
+  "masked_identifier_count": 0,
+  "missing_raw_files": [],
+  "omitted_files": [],
+  "public_files": {
+    "final.md": "ca6a5b265470c9d005b8b0a9b08b12fd7544151279ed5834969e7a009b4fcb37",
+    "invocation.json": "9ec9aaa6b4823f6cb15afc8b4c3efa6236e9774146521f72e1d9b52467024e4f",
+    "prompt.md": "f083baa2c86d73f9be2080cb18419d2e4632d3619297eaf827fe656182cdb661",
+    "result.json": "8b0507ed5f4942f562dbbdf451eb552a4bc01e68d491813b8cf6d4a3364743fb",
+    "transcript.jsonl": "7963ef0cae2c80f771c730e79c1d2e4829cfcfe551af8e6955f47cf20bf94ff8",
+    "usage.json": "6c34b2e3006b1ca6401a5754d569958b9503a1193a61ee79abdb07c9cf5f177d"
+  },
+  "raw_sources": [
+    {
+      "bytes": 648,
+      "kind": "record",
+      "relative_path": "invocation.json",
+      "sha256": "f2ccdbd3529a4d541b3b64fcbd0832f58d20dc00eb153010127a8f7418ce1e70"
+    },
+    {
+      "bytes": 746,
+      "kind": "record",
+      "relative_path": "prompt.md",
+      "sha256": "f083baa2c86d73f9be2080cb18419d2e4632d3619297eaf827fe656182cdb661"
+    },
+    {
+      "bytes": 118683,
+      "kind": "record",
+      "relative_path": "events.jsonl",
+      "sha256": "43fcc4e703a7bf4a384059d2de43d0f05335521adb7696126fe241d60fe1acb4"
+    },
+    {
+      "bytes": 2989,
+      "kind": "record",
+      "relative_path": "final.md",
+      "sha256": "c77ba3dcdbfab15de9a95f94c0af7f95e8eec741aa967ad397f64083ce1fc897"
+    },
+    {
+      "bytes": 73,
+      "kind": "record",
+      "relative_path": "result.json",
+      "sha256": "3ba57d3fc5fd2424c9bc1fb1d60573dd346d6cbbddca146fcfd5ba8f9655cfe4"
+    }
+  ],
+  "redactions": {
+    "final_local_markdown_links": 1,
+    "home_paths": 0,
+    "identifier_occurrences": 0,
+    "markdown_local_links": 1,
+    "omitted_history_fields": 0,
+    "other_absolute_paths": 2,
+    "record_paths": 1,
+    "repository_paths": 0,
+    "workspace_paths": 15
+  },
+  "source_record": "<RECORD>",
+  "source_workspace": "<WORKSPACE>"
+}

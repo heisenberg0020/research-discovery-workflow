@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.0 — 2026-10-06
+
+- Preserved Workflow v1.0.0 bytes; changed no scientific stages, prompts, references or preparation behavior.
+- Recorded one actual Codex CLI 0.160.0 loading path and six one-attempt, fictional behavior invocations, including delayed handoff, retained empirical-resource incompleteness and in-chat final explanation.
+- Added inspectable sanitized prompts, completed events, replies, artifacts, usage and omission/redaction records, with a separate semantic review and reproducibility notes.
+- Explicitly retained the lack of observable child-creation/isolation evidence, local command errors and untested hosts/retrieval; made no research-quality or closed-cost claim.
+- Added opt-in single-call capture and non-model evidence export outside the Skill. Unit tests and CI launch no client or model calls.
+- Scoped package document tests to the published inventory instead of ignored local logs, while extending coverage to nested public evidence; protected mathematical division from path redaction.
+
 ## 1.2.0 — 2026-10-06
 
 - Preserved the byte-frozen Workflow v1.0.0, including all original prompts and the workspace preparer.

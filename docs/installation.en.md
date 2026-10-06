@@ -13,11 +13,11 @@ git clone https://github.com/heisenberg0020/research-discovery-workflow.git
 cd research-discovery-workflow
 ```
 
-This gets the default branch. To pin v1.2.0, use `git clone --branch v1.2.0 --depth 1 https://github.com/heisenberg0020/research-discovery-workflow.git`. Replace the tag if you choose another published version.
+This gets the default branch. To pin v1.3.0, use `git clone --branch v1.3.0 --depth 1 https://github.com/heisenberg0020/research-discovery-workflow.git`. Replace the tag if you choose another published version.
 
 ### Release ZIP: check before extracting
 
-Download the custom assets `research-discovery-workflow-1.2.0.zip`, `manifest.json`, and `SHA256SUMS` from the **same version** on [Releases](https://github.com/heisenberg0020/research-discovery-workflow/releases), keeping all three in one directory. For another version, replace `1.2.0` in every ZIP and directory name below with the downloaded version. GitHub's automatic “Source code (zip)” is a different archive and does not use this asset layout.
+Download the custom assets `research-discovery-workflow-1.3.0.zip`, `manifest.json`, and `SHA256SUMS` from the **same version** on [Releases](https://github.com/heisenberg0020/research-discovery-workflow/releases), keeping all three in one directory. For another version, replace `1.3.0` in every ZIP and directory name below with the downloaded version. GitHub's automatic “Source code (zip)” is a different archive and does not use this asset layout.
 
 In the download directory, use one of these commands. **Both the ZIP and manifest must pass before extraction.**
 
@@ -36,11 +36,11 @@ If the command is unavailable, a file is missing, or a check fails, resolve that
 After the checks pass, use your archive tool, or:
 
 ```sh
-unzip research-discovery-workflow-1.2.0.zip
-cd research-discovery-workflow-1.2.0
+unzip research-discovery-workflow-1.3.0.zip
+cd research-discovery-workflow-1.3.0
 ```
 
-The archive's top-level directory is `research-discovery-workflow-1.2.0/`; its Skill entry is `skills/research-discovery-workflow/SKILL.md`. Keep the three downloaded assets outside the extracted directory. Download checksum checks require no source Git repository. Windows users can compare both SHA-256 values with an available checksum tool; these shell instructions and host loading are not Windows compatibility certification.
+The archive's top-level directory is `research-discovery-workflow-1.3.0/`; its Skill entry is `skills/research-discovery-workflow/SKILL.md`. Keep the three downloaded assets outside the extracted directory. Download checksum checks require no source Git repository. Windows users can compare both SHA-256 values with an available checksum tool; these shell instructions and host loading are not Windows compatibility certification.
 
 ## 2. Select and check Python
 
@@ -115,7 +115,7 @@ If you choose to replace an installation, first inspect and back up any personal
 After checking download hashes, extracting, and inspecting the local helper, you can check the archive's complete file inventory. If the three downloaded assets are one directory above the extracted root:
 
 ```sh
-"$RDW_PYTHON" scripts/build_release.py --verify ../research-discovery-workflow-1.2.0.zip
+"$RDW_PYTHON" scripts/build_release.py --verify ../research-discovery-workflow-1.3.0.zip
 ```
 
 `--verify` requires no Git repository, performs no extraction or installation, and starts no research. It checks archive consistency with the external manifest, not authenticity or research quality.
@@ -126,8 +126,8 @@ Only **building** a release requires Git, clean committed source, an existing pa
 "$RDW_PYTHON" scripts/check_repo.py
 "$RDW_PYTHON" -m unittest discover -s tests -v
 mkdir -p ./dist
-"$RDW_PYTHON" scripts/build_release.py --output ./dist/v1.2.0
-"$RDW_PYTHON" scripts/build_release.py --verify ./dist/v1.2.0/research-discovery-workflow-1.2.0.zip
+"$RDW_PYTHON" scripts/build_release.py --output ./dist/v1.3.0
+"$RDW_PYTHON" scripts/build_release.py --verify ./dist/v1.3.0/research-discovery-workflow-1.3.0.zip
 ```
 
 The build takes its version from `VERSION`; match the example paths to that actual version. It includes only committed public files, excluding local runs and caches.

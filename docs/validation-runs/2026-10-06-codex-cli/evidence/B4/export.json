@@ -1,0 +1,107 @@
+{
+  "artifact_source": "<WORKSPACE>/output",
+  "artifact_source_is_workspace_output": true,
+  "artifact_source_note": "An explicit artifact root may be a retained snapshot; it is not the CLI workspace",
+  "boundaries": [
+    "Sanitized public copies, not raw transcripts or proof of research quality",
+    "Only selected completed items, turn usage, and explicit errors are published",
+    "No spawn, isolation, missing message, missing usage, or successful science is inferred",
+    "Paths and identifiers are mechanically masked; independent public review is still required",
+    "Only known source/home prefixes, recognized private filesystem roots, and file URIs are masked; other abstract paths and mathematical division are retained",
+    "Local links in sanitized Markdown become label plus code path; URL links and scientific prose are retained"
+  ],
+  "events": {
+    "blank_lines": 0,
+    "count_note": "incomplete_events is a schema diagnostic and can overlap unknown_events",
+    "incomplete_events": 0,
+    "malformed_events": 0,
+    "malformed_lines": [],
+    "omitted_item_fields": 0,
+    "omitted_other_events": 2,
+    "omitted_reasoning_events": 0,
+    "omitted_tool_state_events": 5,
+    "selected_events": 9,
+    "total_lines": 16,
+    "turn_completed_events": 1,
+    "unknown_events": 0
+  },
+  "explicit_artifact_root": false,
+  "format_version": 1,
+  "masked_identifier_count": 0,
+  "missing_raw_files": [],
+  "omitted_files": [],
+  "public_files": {
+    "final.md": "1f8ba52a307375b1d6cf4322acf88e2315bfba4aec9d07fcdf9383ef78b84e88",
+    "invocation.json": "a1e293153c733282d8bb1453eb597828b6664d6376ec986b9cf3216cff475b68",
+    "output/RUN.md": "5897b24c72b5deb31215c1c07edaf6c602fe276b717c900ce21c6affe488da97",
+    "output/comparison-audit.md": "5ed7a9fb37789c4081eb85b062f609c2d53c643cf65437e86bdcf5e281807d88",
+    "output/final-proposal-and-plan.md": "8b81f4e3e61f0f38fe467b5eda03cd37b0c5caac897f005f51fbe9527ebf56ff",
+    "prompt.md": "8feae1dbb11059953d1880d5f7d12ca1f305578675c27cb69b4dc2ee82aa4737",
+    "result.json": "5d8864731e6ec8af8bbb20f7ffebf31e4dbf82b8673a50454c507aba19c7cba9",
+    "transcript.jsonl": "75efa6798faf9a5c97cec2532ba47ac7e0720690b97c883ca3245025cedfec34",
+    "usage.json": "d054a98403f795810f5bc61536fc9e6ec7e82399b9b129de835dd05eb768b68c"
+  },
+  "raw_sources": [
+    {
+      "bytes": 654,
+      "kind": "record",
+      "relative_path": "invocation.json",
+      "sha256": "affa1eaa61b7f798efe2656eccc78eddc31800da0fb600688bb8820adf51262b"
+    },
+    {
+      "bytes": 793,
+      "kind": "record",
+      "relative_path": "prompt.md",
+      "sha256": "8feae1dbb11059953d1880d5f7d12ca1f305578675c27cb69b4dc2ee82aa4737"
+    },
+    {
+      "bytes": 87975,
+      "kind": "record",
+      "relative_path": "events.jsonl",
+      "sha256": "2284788fcd22728fd841b3715bb64a44b98b29878e2a15f2e4188a6b4ae603c9"
+    },
+    {
+      "bytes": 3477,
+      "kind": "record",
+      "relative_path": "final.md",
+      "sha256": "dcc8b2b64b86c240e8fd2d6ea3aa58168d5f6c70996faaf3c53ac7ead27336a9"
+    },
+    {
+      "bytes": 74,
+      "kind": "record",
+      "relative_path": "result.json",
+      "sha256": "c2a618bfb93767ea768eca680bfa3705a4f3af96ecf340641d7e0f9c30a3786f"
+    },
+    {
+      "bytes": 1568,
+      "kind": "artifact",
+      "relative_path": "output/RUN.md",
+      "sha256": "5897b24c72b5deb31215c1c07edaf6c602fe276b717c900ce21c6affe488da97"
+    },
+    {
+      "bytes": 4613,
+      "kind": "artifact",
+      "relative_path": "output/comparison-audit.md",
+      "sha256": "5ed7a9fb37789c4081eb85b062f609c2d53c643cf65437e86bdcf5e281807d88"
+    },
+    {
+      "bytes": 4301,
+      "kind": "artifact",
+      "relative_path": "output/final-proposal-and-plan.md",
+      "sha256": "8b81f4e3e61f0f38fe467b5eda03cd37b0c5caac897f005f51fbe9527ebf56ff"
+    }
+  ],
+  "redactions": {
+    "final_local_markdown_links": 3,
+    "home_paths": 0,
+    "identifier_occurrences": 0,
+    "markdown_local_links": 3,
+    "omitted_history_fields": 0,
+    "other_absolute_paths": 0,
+    "record_paths": 1,
+    "repository_paths": 0,
+    "workspace_paths": 3
+  },
+  "source_record": "<RECORD>",
+  "source_workspace": "<WORKSPACE>"
+}

@@ -49,7 +49,9 @@ v1.0.0 had standard-library file tests, metadata checks, and a few Agent walkthr
 
 Repository checks concern unchanged frozen files, document and asset links, temporary installation, refusal to overwrite, and release hashes. Recorded v1.1.0 results are in its [release notes](releases/v1.1.0.md); later distribution changes are in the [changelog](../CHANGELOG.md). Remote CI results require actual [Actions](https://github.com/heisenberg0020/research-discovery-workflow/actions) receipts.
 
-CI tests repository code only on its configured Python and operating-system combinations. It does not verify every host's Skill loading, full research, or isolation. The optional prompt is a request users can try; this guide makes no claim of an actual host-loading test. Local Windows symlink tests may require permission; a check that was not run cannot be reported as passing.
+CI tests repository code only on its configured Python and operating-system combinations. It does not verify every host's Skill loading, full research, or isolation. Local Windows symlink tests may require permission; a check that was not run cannot be reported as passing.
+
+v1.3.0 adds an [actual Codex CLI receipt](validation-runs/2026-10-06-codex-cli/README.md#english-summary) on macOS / CLI 0.160.0. A name-only invocation resolved and read the intact local `.agents/skills` package; fictional cases exercised first use, delayed handoff, main-resource incompleteness and final conversation reporting. Internal registry behavior, observable child creation/isolation, implicit memory and arbitrary file-read denial remain unverified. This is not full-platform certification; see [reproduction boundaries](validation-runs/2026-10-06-codex-cli/REPRODUCE.md).
 
 ## Other hosts
 

@@ -1,6 +1,6 @@
 # Workflow 冻结与仓库版本
 
-**科研 Workflow 冻结在 v1.0.0。仓库 v1.2.0 只完善使用、示例与分发。**
+**科研 Workflow 冻结在 v1.0.0。仓库 v1.3.0 只完善使用、示例、实测证据与分发。**
 
 基准是 [v1.0.0](https://github.com/heisenberg0020/research-discovery-workflow/tree/v1.0.0)，提交 `894b429b51d2f3aeb35e5e4606260dbc91376e70`。本次不是流程迭代，也没有增加科研门槛。
 

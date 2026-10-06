@@ -1,0 +1,27 @@
+{
+  "auxiliary_usage_note": "cache_write_input_tokens and reasoning_output_tokens are retained as reported and are not added to recorded input plus output",
+  "cached_input_note": "cached_input_tokens is a subset of input_tokens; it is never added again",
+  "call_usage": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 87680,
+    "input_tokens": 123936,
+    "output_tokens": 4828,
+    "reasoning_output_tokens": 200,
+    "recorded_input_plus_output_tokens": 128764
+  },
+  "call_usage_status": "one_reported_turn",
+  "multiple_turn_note": "Multiple usage events are retained individually; no call total is inferred",
+  "reported_turns": [
+    {
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 87680,
+      "input_tokens": 123936,
+      "line": 16,
+      "output_tokens": 4828,
+      "reasoning_output_tokens": 200,
+      "recorded_input_plus_output_tokens": 128764
+    }
+  ],
+  "uncovered_usage_fields": [],
+  "usage_scope": "Fields are reported by this CLI main-session turn.completed event. Separate native subagent usage was not captured; whether it is included is unknown. Recorded input plus output across calls is not a closed total cost or bill. Unknown fields stay null and are never treated as zero."
+}

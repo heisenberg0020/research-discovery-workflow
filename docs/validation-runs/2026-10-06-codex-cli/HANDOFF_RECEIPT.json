@@ -1,0 +1,19 @@
+{
+  "case": "B2",
+  "handoff_staged_at_utc": "2026-10-06 07:26:53 UTC",
+  "pre_stage_exit_code": 0,
+  "pre_stage_timed_out": false,
+  "pre_stage_inspection": "Original byte hash matched input. Reviewer and revised proposal were read; the consumer operation changed from 5q to 20+5q, and the state remained pending_handoff. Only then was the authorized old file copied into the executor workspace.",
+  "old_packet": "fixtures/delayed-handoff/old-handoff.md",
+  "old_packet_sha256": "74c74e6c0dabdc9b2ffb8f65dc1272eaf3751f69a3a5eb190404f91d422caec5",
+  "original_q5_sha256": "1babc37df23ef733627c1d42f203fe32618c0d06468fb76634de4becac866d51",
+  "pre_artifacts_copied_to_ignored_snapshot_before_post": true,
+  "pre_snapshot_hashes": {
+    "COMPARISON-PROGRESS.md": "1484c562a33549d431a6bacb8ed28a6cc466eba0d42004e77c42e43201a0037e",
+    "REVIEW.md": "09a44ba662bd0f9a989dae52880941306d37d18b7bba32db1964d632c97d3c25",
+    "RUN.md": "b557b6f69dcd86cd0dea5f00791d8ff0e8c01ca35580795e7673fbfb2c576fda",
+    "q5-original/REPORT.md": "1babc37df23ef733627c1d42f203fe32618c0d06468fb76634de4becac866d51",
+    "q5-repaired/REPORT.md": "8a9a1659e0fb48b5a03068ffdec1b5336b25fa3cdf8a6850b5a0bc4274450fcc"
+  },
+  "continuation": "New ephemeral invocation, same saved current-run files plus the authorized handoff; not an uninterrupted session or a newly independent discovery."
+}

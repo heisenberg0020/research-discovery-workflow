@@ -13,11 +13,11 @@ git clone https://github.com/heisenberg0020/research-discovery-workflow.git
 cd research-discovery-workflow
 ```
 
-这会获取默认分支。固定 v1.2.0 可使用 `git clone --branch v1.2.0 --depth 1 https://github.com/heisenberg0020/research-discovery-workflow.git`。若选择其他已发布版本，把标签换成该版本。
+这会获取默认分支。固定 v1.3.0 可使用 `git clone --branch v1.3.0 --depth 1 https://github.com/heisenberg0020/research-discovery-workflow.git`。若选择其他已发布版本，把标签换成该版本。
 
 ### 下载发行包：先核验，再解压
 
-从 [Releases](https://github.com/heisenberg0020/research-discovery-workflow/releases) 的同一个版本下载自定义发行资产 `research-discovery-workflow-1.2.0.zip`、`manifest.json`、`SHA256SUMS`，放在同一目录。选择其他版本时，将以下 ZIP 名称与目录名中的 `1.2.0` 换成下载的实际版本。GitHub 自动生成的 “Source code (zip)” 不是这套资产，文件布局和核验方式不同。
+从 [Releases](https://github.com/heisenberg0020/research-discovery-workflow/releases) 的同一个版本下载自定义发行资产 `research-discovery-workflow-1.3.0.zip`、`manifest.json`、`SHA256SUMS`，放在同一目录。选择其他版本时，将以下 ZIP 名称与目录名中的 `1.3.0` 换成下载的实际版本。GitHub 自动生成的 “Source code (zip)” 不是这套资产，文件布局和核验方式不同。
 
 在下载目录运行以下两种方式之一，**两项均显示成功后再解压**：
 
@@ -36,11 +36,11 @@ sha256sum -c SHA256SUMS
 核验后用解压工具打开 ZIP，或运行：
 
 ```sh
-unzip research-discovery-workflow-1.2.0.zip
-cd research-discovery-workflow-1.2.0
+unzip research-discovery-workflow-1.3.0.zip
+cd research-discovery-workflow-1.3.0
 ```
 
-ZIP 内的顶层目录是 `research-discovery-workflow-1.2.0/`，入口是其下的 `skills/research-discovery-workflow/SKILL.md`。保留外部的三份发行资产。下载和摘要核验不需要源码 Git 仓库；Windows 可用现有校验工具核对两项 SHA-256，但本页的 shell 命令及客户端加载没有 Windows 兼容认证。
+ZIP 内的顶层目录是 `research-discovery-workflow-1.3.0/`，入口是其下的 `skills/research-discovery-workflow/SKILL.md`。保留外部的三份发行资产。下载和摘要核验不需要源码 Git 仓库；Windows 可用现有校验工具核对两项 SHA-256，但本页的 shell 命令及客户端加载没有 Windows 兼容认证。
 
 ## 2. 选择并核对 Python
 
@@ -115,7 +115,7 @@ mkdir -p ./runs
 完成下载摘要核验、解压并检查本地脚本后，可以用包内工具核对完整归档清单。若三份下载资产位于解压目录的上一级：
 
 ```sh
-"$RDW_PYTHON" scripts/build_release.py --verify ../research-discovery-workflow-1.2.0.zip
+"$RDW_PYTHON" scripts/build_release.py --verify ../research-discovery-workflow-1.3.0.zip
 ```
 
 `--verify` 不需要 Git 仓库，不解压或安装，也不启动研究。它检查归档内容与外部清单一致；仍不是真实性签名或科研质量证明。
@@ -126,8 +126,8 @@ mkdir -p ./runs
 "$RDW_PYTHON" scripts/check_repo.py
 "$RDW_PYTHON" -m unittest discover -s tests -v
 mkdir -p ./dist
-"$RDW_PYTHON" scripts/build_release.py --output ./dist/v1.2.0
-"$RDW_PYTHON" scripts/build_release.py --verify ./dist/v1.2.0/research-discovery-workflow-1.2.0.zip
+"$RDW_PYTHON" scripts/build_release.py --output ./dist/v1.3.0
+"$RDW_PYTHON" scripts/build_release.py --verify ./dist/v1.3.0/research-discovery-workflow-1.3.0.zip
 ```
 
 构建版本取自 `VERSION`，请让示例目录与实际版本一致。构建只读取已提交、允许公开的文件，不包含本地运行目录或缓存。

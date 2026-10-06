@@ -1,0 +1,31 @@
+{
+  "protocol_locked_before_behavior_cases": true,
+  "loading_case_preceded_final_protocol_additions": true,
+  "repository_tested": "v1.2.0",
+  "repository_commit": "a7018d89290b5267c8825e4cfc384f27d5e53d87",
+  "workflow_version": "v1.0.0",
+  "codex_version": "0.160.0",
+  "host": "macOS",
+  "model_override": null,
+  "reported_model_identity": null,
+  "files": {
+    "PROTOCOL.md": "6e8da8808c6ed11cc438a32bbb07dde984ff6062c0c1d183e18578d19c1b6c04",
+    "tools/run_one.py": "aec81def887793ca01ac0d5b1479fd6d72bd6c54b12bfae4a3880559e0e635f5",
+    "prompts/B1.md": "130fed411f3bbe21bf2d356e62426db37546c0da873bc968497192bf5e7dad47",
+    "prompts/B2-post.md": "3ec680389726816e41d61f267e06d99e7759fcbbd91d04405ee617b40f7ceb8b",
+    "prompts/B2-pre.md": "89400de5cade099080d4d4213b3b6f7562e3cab62471b5b69bc932a2e475e53c",
+    "prompts/B3.md": "c7a4fbf596bc580360efd4bd279792fa069164880112707f97246931c1d9fc0c",
+    "prompts/B4.md": "8feae1dbb11059953d1880d5f7d12ca1f305578675c27cb69b4dc2ee82aa4737",
+    "prompts/L0.md": "f083baa2c86d73f9be2080cb18419d2e4632d3619297eaf827fe656182cdb661",
+    "fixtures/delayed-handoff/brief.md": "c2836d5450e3b6edbf419e6b015bf0161d9527a509cd66f6c6cad59c738837f3",
+    "fixtures/delayed-handoff/current-sources.md": "6d05548ba366af85634458b6120a2152067fc812c43bdcba407aaeb5b2a223a6",
+    "fixtures/delayed-handoff/old-handoff.md": "74c74e6c0dabdc9b2ffb8f65dc1272eaf3751f69a3a5eb190404f91d422caec5",
+    "fixtures/delayed-handoff/q5-original.md": "1babc37df23ef733627c1d42f203fe32618c0d06468fb76634de4becac866d51",
+    "fixtures/final-insight/comparison-plan.md": "c9a37136e85be8eb65d22abd7522fa1f36ea4f82a2cebbfdf59f210e4a464f95",
+    "fixtures/final-insight/current-packet.md": "823c972b722efb72d78413c3a0044e976aba1032eec509f2311eae555af6ad2c",
+    "fixtures/first-use/brief.md": "9eecc692d07c36e7ab750215d9d52fee095693798396fbbf154b11b41a6a7dc7",
+    "fixtures/first-use/formal-notes.md": "e02ac4eb56b977c99d6384dcfd284738a45c5dbd891e2fe74d7a5b3896745be4",
+    "fixtures/resource-gap/current-packet.md": "8adf39052aa8b78107c8e37f8c5acfec643887e755a2daeaea76a18e1ffd63e8",
+    "fixtures/resource-gap/formal-subproblem.md": "a8eab61f612eb98a4711b5e264c1a0fc358efd34fbf1da1cabcc76e4dbeece6f"
+  }
+}
