@@ -7,3 +7,9 @@ The generalized additions include an explicit mandatory Q5-R retrospective/repai
 The repository's MIT license covers its authored package. References to another repository do not relicense that repository or claim ownership of its content. Optional integrations must follow their own instructions, terms and actual availability.
 
 This package is a workflow aid, not a publication, benchmark result or validated claim that repeated exploration improves scientific success. Structural and behavioral smoke tests assess specific execution behaviors, not scholarly novelty or research value.
+
+## Repository presentation references (1.1.0)
+
+At the user's request, the public repository form was informed by [cumcm-autonomous-harness](https://github.com/heisenberg0020/cumcm-autonomous-harness) at commit `7a7aeeaa6af11d1cae5d9726d6011d46b2f57d50` and [research-code-stewardship-lab](https://github.com/heisenberg0020/research-code-stewardship-lab) at commit `bf2ae99041008e8d61b63ce46dd57e9ab1b4610e`: clear entry points, bilingual navigation, diagrams, installation guidance, examples and explicit validation limits. Their runtime mechanisms, research material, images and prose were not copied. The banner and distribution helpers here are newly authored.
+
+The research Workflow itself remains byte-frozen at v1.0.0; see the [freeze record](FROZEN_WORKFLOW.md). Repository usability/version changes do not revise the scientific process or inherit the reference repositories' claims and licensing.

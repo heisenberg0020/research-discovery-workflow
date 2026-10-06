@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 — 2026-10-06
+
+- Kept Workflow v1.0.0 byte-frozen; no changes to the Skill, references, preparation helper or original startup prompts.
+- Added bilingual repository navigation, an original SVG banner, installation/architecture/compatibility guides and a neutral brief example.
+- Added an optional standard-library installer with write-free preview and refusal to overwrite existing installations.
+- Added frozen-file/document/asset checks, distribution tests, public CI, contributor and issue guidance.
+- Added clean tracked-source release packaging, a file manifest and SHA-256 verification; original v1.0.0 remains available.
+
 ## 1.0.0 — 2026-10-06
 
 - Extracted a domain-general, self-contained research-discovery and planning workflow.

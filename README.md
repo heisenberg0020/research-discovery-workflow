@@ -1,147 +1,160 @@
-# Research Discovery Workflow
+<p align="center">
+  <img src="docs/images/banner.svg" alt="Research Discovery Workflow — understand the field, build the mechanism, make the plan" width="100%">
+</p>
 
-一个通用的科研选题与 planning Skill：从领域理解出发，构建具体解释或技术操作；经过独立复盘修订，再有条件地引入旧成果，最后把研究洞察和可执行规划讲清楚。
+<h1 align="center">Research Discovery Workflow</h1>
 
-**English:** A self-contained agent skill for evidence-grounded research discovery, concrete proposal construction, retrospective repair, and optional two-pass reconciliation. It is not a guarantee of novelty or research success. See the [English quick start](docs/QUICKSTART.en.md).
+<p align="center">
+  <strong>把领域理解，转化为具体研究提案与有判别力的规划。</strong><br>
+  一个通用的科研发现与 planning Skill，不限定领域，不预设 Agent 或 LLM。
+</p>
 
-## 它解决什么问题
+<p align="center">
+  <a href="README.md">中文</a> · <a href="README_EN.md">English</a><br>
+  <a href="https://github.com/heisenberg0020/research-discovery-workflow/releases/latest"><img src="https://img.shields.io/github/v/release/heisenberg0020/research-discovery-workflow?style=flat-square&amp;label=release" alt="Latest repository release"></a>
+  <a href="https://github.com/heisenberg0020/research-discovery-workflow/actions/workflows/ci.yml"><img src="https://github.com/heisenberg0020/research-discovery-workflow/actions/workflows/ci.yml/badge.svg" alt="Repository checks"></a>
+  <img src="https://img.shields.io/badge/Python-3.10%2B-416b85?style=flat-square" alt="Python 3.10+ for optional helpers">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-627b68?style=flat-square" alt="MIT license"></a>
+</p>
 
-不是再生成一批“值得进一步研究”的题名，而是努力回答：
+<p align="center">
+  <a href="#quick-start">快速开始</a> ·
+  <a href="#workflow">研究链</a> ·
+  <a href="#choose">按需求选择</a> ·
+  <a href="#examples">示例</a> ·
+  <a href="#validation">验证范围</a> ·
+  <a href="#docs">文档</a>
+</p>
+
+---
+
+不是再列一批“值得进一步研究”的题名，而是回答：
 
 > 已有答案是什么？我们具体还想发现或改善什么？哪一个有意义的区别，会让这项研究真正有内容？
 
-适用于开放选题、从论文与企业成果寻找研究切口、解释现象或收益来源、设计更好方法、对已有候选重新探索。不限定 RS/SBR，不预设 Agent/LLM，不要求三类贡献各凑一个，不把发现近邻等同于问题已经解决。
+理解领域关心什么，也理解已有方法实际怎么工作；允许有依据的大胆构思，再把机制、强替代、比较和资源写具体。发现近邻不等于问题已经充分解决，缺少类似论文也不等于选题有价值。
 
-## 完整流程
+**科研 Workflow 已冻结在 v1.0.0。** 仓库 v1.1.0 只完善展示、安装、示例、检查和发行；Skill、引用指令、启动提示词及准备器保持字节不变。[冻结范围与核对 →](docs/FROZEN_WORKFLOW.md)
+
+<a id="quick-start"></a>
+
+## 快速开始
+
+需要能加载本地 Skill 的 Agent 客户端；可选辅助工具只需 **Python 3.10+ 标准库**。不内置模型、检索 API 或实验执行器。
+
+### 1 / 获取并预览安装
+
+```sh
+git clone https://github.com/heisenberg0020/research-discovery-workflow.git
+cd research-discovery-workflow
+python scripts/install.py --dry-run
+python scripts/install.py
+```
+
+安装器默认使用 `CODEX_HOME/skills`，未设置时使用 `$HOME/.codex/skills`；同名目标已存在就停止，不覆盖个人改动。预览不会创建文件。安装后在客户端确认 Skill 已重新加载；自定义安装、更新与发行包核验见[安装说明](docs/installation.md)。
+
+### 2 / 给一份中性兴趣文档
+
+复制[中性 brief 示例](examples/neutral-brief.md)并填写自己的领域、关注问题、可协商边界和资源事实。示例只是输入辅助，不是必须新增的科研模板。
+
+在新的、非 fork 对话中提供这份实际文档，并指定干净工作根。首次使用可以直接说：
 
 ```text
-五步环境隔离
-  → Q0 研究兴趣、范围与可协商边界
-  → Q1-T 领域向下 / Q1-U 方法向上（首轮判断分开保存）
-  → Q1-S 两条线的实质对照与阶段性认识
-  → Q2 形成具体机会与构思草案
-  → Q3 展开机制、理解强近邻、支持与挑战
-  → Q4 技术比较、实质修订，必要时重新选题
-  → Q5 保存独立提案与条件规划的原快照
-  → Q5-R 独立复盘、纸面修补、收束研究核心（必做）
-  → Q6 有条件地引入旧成果（第一次无旧材料可跳过）
-  → Q6-P 可选先导：提案 / 跳过 / 已授权执行
-  → Q7-A 每方向的可执行比较方案与资源估算（必做）
-  → Q7-B 最终具体提案、条件规划与对话中的详细洞察汇报
+使用 $research-discovery-workflow。
+研究兴趣与可协商边界以我附上的中性文档为准，请在指定的新工作根开展完整探索与 planning。
+
+先落实并说明五步环境隔离，执行 Q0–Q5，再保存原独立快照并完成 Q5-R 复盘与纸面修补。
+本轮没有旧成果，Q6 标 not_applicable。只规划，不执行实验或额外付费调用。
+先完成 Q7-A 的具体比较方案与真实资源估算，再进行 Q7-B。
+最后在对话里详细讲清领域洞察、候选怎样形成、具体机制、剩余价值、强替代及下一步判断。
 ```
 
-Q1-S 不是两条线求交集：仅从一条线出现的好机会也可以保留。Q3 要真正写出变量、操作、关系或判断设计，而不是一句“加个自适应模块”。已有方法的相关性、竞争力与在明确目标下是否充分解决，分别判断。
+完整第一轮、第二轮和延迟交接提示词见[原版启动文档](docs/STARTER_PROMPTS.zh-CN.md)。安装不创建新对话、不清除记忆；宿主隔离能力有缺口时必须如实说明。
 
-### 环境隔离包含哪些步骤
+<a id="workflow"></a>
 
-1. 使用不继承历史的新对话。
-2. 在旧研究树之外建立干净工作目录，只提供中性兴趣文档与流程。
-3. 按宿主能力检查并关闭本次运行的历史记忆/旧项目上下文，避免修改全局配置。
-4. 限定文件、对话、文献库和工具的上下文来源；保留开展公开调研所需的工具。
-5. 检查实际读写路径和生效边界，说明哪些被技术限制、哪些只是指令约束。
+## 研究链：先理解与构造，再修订与决定
 
-Skill 能指导隔离，但不能凭提示词关闭所有宿主功能。附带脚本只准备文件，**不创建聊天、不关闭记忆、不构造沙箱、不启动调研**。隔离无法达到时如实说明，不把“换个文件夹”称为完全独立。
+```mermaid
+flowchart LR
+    S[隔离与 Q0] --> T[Q1-T 领域向下]
+    S --> U[Q1-U 方法向上]
+    T --> QS[Q1-S 实质对照]
+    U --> QS
+    QS --> C[Q2–Q5 构思与具体提案]
+    C --> R[Q5-R 复盘修补]
+    R --> Q6[Q6 条件合流]
+    Q6 --> P[Q6-P 可选先导]
+    P --> A[Q7-A 比较与资源]
+    A --> B[Q7-B 洞察汇报]
+```
 
-### 为什么增加 Q5-R
+| 核心环节 | 为什么保留 |
+| --- | --- |
+| 两条发现路线 | 领域向下看重要目标与现实条件，方法向上理解工作原理；首轮分开保存，不强迫只留交集 |
+| 具体机制与近邻判断 | 讲清关系、操作和信息时序；把相关性、竞争力、是否充分解决分别判断 |
+| Q5-R 必做复盘 | 保留原快照，检查科学内容并修补；不能只补一句风险说明 |
+| Q6 条件合流 | 首次无旧成果可跳过；有旧材料时到 Q5-R 后再按范围交接 |
+| Q7-A → Q7-B | 先有可执行比较与资源估算，再开展全面、详细、自包含的洞察汇报 |
 
-成稿可能仍有关系错配、信息时序不清、强对照被弱化、算法身份误判，或构思只在草稿中出现而最终正文丢失。因此在任何旧成果进入前：
+Q7-A 逐方向回答四件事：**近邻已回答到哪里；两种竞争解释与区分观察；真实资源、划分与估算；不同结果改变什么决定。** 资源或机制尚未确定时可以汇报局部进展，不能以完成子问题冒称整体就绪。计划就绪不等于已经执行或验证。
 
-- 保留 Q5 原快照。
-- 检查本轮认识、具体机制、对照和交付内容，而不只检查文件数量。
-- 有依据地做纸面修订；原版不覆盖，不能以改一句风险说明代替修补。
-- 在每项提案开头讲清“已有答案—我们还想增加什么—什么区别使研究有内容”。
+完整阶段与宿主职责见[架构导览](docs/architecture.md)；执行时使用[冻结 Skill 入口](skills/research-discovery-workflow/SKILL.md)。
 
-可以使用全新评审上下文；只有自评时明确标明。没有发现成立的问题时，不强造修改。需要新实验才能判断的有效假说仍可保留为待验证。
+<a id="choose"></a>
 
-### Q6 的四种状态
+## 按需求选择
 
-| 当前情况 | 处理 |
-|---|---|
-| 第一次使用，没有旧成果 | `not_applicable`，正常完成 Q7 |
-| 本次不希望引入旧成果 | `skipped`，正常完成 Q7 |
-| 有已授权且范围明确的旧成果 | Q5-R 后引入，核重复、反证、遗漏、可复用原理/资源，形成合流版 |
-| 明确要求合流，但材料尚未交接 | `pending_handoff`，说明缺什么，不虚报合流完成 |
+| 你现在想做什么 | 从哪里开始 | 得到什么 |
+| --- | --- | --- |
+| 第一次找研究问题 | 中性 brief + 第一轮提示词 | 当前答案、具体提案、比较与条件规划；无需旧成果 |
+| 从已有成果重新探索 | 先只给中性兴趣，旧成果留到 Q6 | 保留独立版，并得到有依据的对照与合流 |
+| 做两轮后再选题 | 第二轮新上下文仍只用同一 brief；到 Q5-R 后交接第一轮 | 最终合流版，可保留第一轮更好的构思 |
+| 仅准备工作目录 | 冻结的 `prepare_run.py` | 空的 `prepared-not-started` 工作根，不启动研究 |
+| 维护或贡献仓库 | 仓库检查 + [贡献指南](CONTRIBUTING.md) | 文档、冻结范围与辅助工具的实际验证 |
 
-不强迫新方案胜出，也不因旧方案已经写了大量代码就偏向它。重复引用同一论文不算第二份独立证据。
+两轮是推荐用法，不是强制。第二轮不天然更好，重复引用同一论文不算独立科学证据。先导可以只提出或跳过；实际实验仍按具体授权开展。
 
-### Q7 先完成比较方案，再开展全面洞察汇报
+<a id="examples"></a>
 
-全面汇报前，每个保留的具体方向必须先回答四件事：
+## 示例与预期成果
 
-1. **最接近工作已经回答到哪里？** 精确到机制、理论条件与实验比较。
-2. **我们还要回答的具体区别是什么？** 写出两种竞争解释和能区分它们的观察。
-3. **哪套真实资源能够回答？** 确认数据、模型、实现与切分资格，给出有依据的资源估算；不能为了方便偷换研究对象，不能自动恢复旧实验。
-4. **结果会改变什么决定？** 继续方法开发、改成机制研究、采用现成简单方案、调整验证场景，或保留未决。
+[中性兴趣文档](examples/neutral-brief.md)说明如何给输入；[原创虚构规划片段](examples/README.md)展示从模糊题名到关系、强对照与资源问题的差别。示例没有真实文献结论或实验结果，不能当成熟选题直接使用。
 
-Q7-A 的交付是可执行比较方案，不是另一篇宏观综述。资源访问尚待条件可以明确标为条件方案；资源/对照本身还没找到则标未完成并补充，不拿四个标题冒充完成。先做方案，不等于先执行实验。
+准备器预留原独立版、修订版和最终版目录。报告应保留定义机制，并解释已有答案、具体剩余机会、严肃替代和判别路线；可以使用少数连贯文档，不需要为了每个标题单独建文件。**文件供核查，不能替代对话中的洞察式讲解。**
 
-方案是否完成以保留的主研究问题为准：只完成一个形式接口子检查，不能替代仍缺真实资源的经验收益研究。可以分享局部洞察，但标明是进展报告；真正的理论研究则使用适合的形式资源，不机械要求数据集。
+<a id="validation"></a>
 
-结束时必须在对话中充分解释：领域真正关心什么，现有处理做到哪一步，本轮改变了哪些认识，候选怎样从证据与机制中生长出来，为什么其具体剩余机会可能有价值，我们究竟提出什么，最强替代是什么，以及接下来什么证据会改变判断。
-
-报告分清“本轮已收束”“构思已具体”“相关主张证据足够”“验证已完成”。文件链接用于核查，不能替代有洞察力的讲解。
-
-## 安装与使用
-
-发布后可以克隆本仓库，使用 `skills/research-discovery-workflow/`。文件采用通用 `SKILL.md` 结构；`agents/openai.yaml` 提供 Codex UI 元数据，不是所有宿主的必需依赖。
-
-在 Codex 中，可将这个目录复制到用户的 skills 目录。例如，先确认目标不存在，再从仓库根执行：
+## 验证与边界
 
 ```sh
-mkdir -p "$HOME/.codex/skills"
-test ! -e "$HOME/.codex/skills/research-discovery-workflow" && \
-  test ! -L "$HOME/.codex/skills/research-discovery-workflow" && \
-  cp -R skills/research-discovery-workflow "$HOME/.codex/skills/"
+python scripts/check_repo.py
+python -m unittest discover -s tests -v
 ```
 
-这不会更新或替代其他研究 Skill。若同名目标已存在，先查看并决定升级方式，不覆盖其内容。其他宿主按其 Skill 加载方式导入该目录，必要时显式加载 `SKILL.md`；不保证未经测试的宿主会自动识别全部元数据。
+检查覆盖冻结文件摘要、文档/资产链接、目录准备、临时安装和发行包。GitHub CI 的实际结果见上方徽章与 [Actions](https://github.com/heisenberg0020/research-discovery-workflow/actions)。
 
-新对话中调用：
+首版做过少量虚构材料行为试走，发现过范围与状态判断问题，并记录了修正及未覆盖范围。[验证记录 →](docs/VALIDATION.md)
 
-```text
-使用 $research-discovery-workflow。我的领域是……，研究兴趣与可协商边界在所附文档。
-请从五步隔离开始，执行完整科研探索与 planning；暂不执行实验。
-Q5 后必须复盘并修订，最后在对话中详细讲清洞察、候选来源、具体提案与价值。
-```
+**这些测试不证明选题质量、新颖性、科研成功率、两轮优越性或宿主隔离效果。** 七项上游能力是可选接入，没有捆绑其脚本或服务；其他客户端的加载与权限按[实际兼容范围](docs/compatibility.md)说明。
 
-完整中文启动与交接提示词见 [双轮使用提示词](docs/STARTER_PROMPTS.zh-CN.md)。
+<a id="docs"></a>
 
-### 推荐的两轮用法
+## 文档导航
 
-1. 第一轮：干净探索 → Q5-R → Q6 无旧材料 → Q7。保留成果。
-2. 第二轮：另开不 fork 的新对话，**只给同一份中性兴趣文档与本 Skill**。第一轮成果先留在对话与工作根之外。
-3. 第二轮完成 Q5-R 后，把第一轮的提案、机制、来源笔记和相关反证作为指定 Q6 材料交接。
-4. 第二轮完成 Q6/Q7，用其最终合流版作为实际使用结果；其中可以选择第一轮更好的想法，也可以保留竞争分支。
+| 使用者 | 维护者与深入理解 |
+| --- | --- |
+| [安装、启动与更新](docs/installation.md) | [架构与职责](docs/architecture.md) |
+| [第一轮、第二轮与交接提示词](docs/STARTER_PROMPTS.zh-CN.md) | [Workflow 冻结](docs/FROZEN_WORKFLOW.md) |
+| [原始 English quick start](docs/QUICKSTART.en.md) | [验证证据与限制](docs/VALIDATION.md) |
+| [中性输入与示例](examples/README.md) | [来源与许可](docs/PROVENANCE.md) |
+| [兼容与常见问题](docs/compatibility.md) | [贡献指南](CONTRIBUTING.md) · [版本记录](CHANGELOG.md) |
 
-不要在第二轮开始就附第一轮结果。第二轮不天然优于第一轮，两轮一致不等于科学验证。如果根据第一轮修改兴趣文档，说明这是调整目标后的探索，而非同输入的独立复探。
+MIT 许可证。感谢 [lingzhi227/agent-research-skills](https://github.com/lingzhi227/agent-research-skills) 对七项 Phase 0 能力分类的启发；本仓库未复制其 Skill 文本与脚本。首页组织参考两个公开项目，图示与本仓库文稿原创，详情见[来源说明](docs/PROVENANCE.md)。私人科研材料不随仓库发布。
 
-### 可选的干净目录准备器
-
-先编写不包含旧候选的 `neutral-brief.md`，选一个父目录已存在、目标尚不存在的路径：
-
-```sh
-python3 skills/research-discovery-workflow/scripts/prepare_run.py \
-  --root ./runs/pass-1 --brief ./neutral-brief.md --pass-number 1
-```
-
-示例中需先自行创建 `runs/`。脚本不自动建立无限层级，也不会覆盖已有目标。准备第二轮时换新路径并设置 `--pass-number 2`；它同样只复制中性 brief 和 Skill，绝不自动装载第一轮。
-
-产物包括 `BRIEF.md`、`AGENTS.md`、`RUN.md`、局部 Skill 副本、`output/` 与 `tmp/`。状态明确是 `prepared-not-started`；在新对话中指定工作目录后才真正开始。调用者负责 brief 的语义中性，脚本不判断内容是否夹带旧想法。
-
-## 能力接入与出处
-
-本流程吸收了 [lingzhi227/agent-research-skills](https://github.com/lingzhi227/agent-research-skills) 的七项 Phase 0 能力分类：论文检索、深度理解、文献评议、GitHub 理解、构思、近邻/新颖性判断与规划。可按需接入对应已安装 Skill；没有它们也可以用宿主现有工具执行。本仓库未打包上游脚本或 Skill 文本，详见 [能力映射](skills/research-discovery-workflow/references/upstream-capabilities.md) 与 [来源说明](docs/PROVENANCE.md)。
-
-不自动安装依赖或启用额外付费 API。证据优先使用原始论文、正式记录和官方技术资料，获取/阅读深度与主张资格相匹配。
-
-## 测试与版本
-
-初始版本：**1.0.0**。运行文件准备器测试：
-
-```sh
-python3 -m unittest discover -s tests -v
-```
-
-文档检查与小规模行为试走见 [验证记录](docs/VALIDATION.md)。这些测试验证结构、准备行为和若干流程执行分支，**不证明科研产出质量、选题成功率或两轮流程优越性**。本次通用化没有重新执行原领域研究或先导实验。
-
-MIT 许可证。原始科研结果与私人项目文件不随仓库发布。
+<p align="center">
+  <strong>Understand deeply. Propose concretely. Explain clearly.</strong><br><br>
+  <a href="https://github.com/heisenberg0020/research-discovery-workflow/releases/latest">下载发行包</a> ·
+  <a href="https://github.com/heisenberg0020/research-discovery-workflow/issues">反馈问题</a> ·
+  <a href="#quick-start">开始使用 ↑</a>
+</p>

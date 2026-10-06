@@ -1,0 +1,20 @@
+name: Installation or repository issue
+description: Report a reproducible public packaging, tool, or documentation problem.
+body:
+  - type: markdown
+    attributes:
+      value: "Please remove private research, chat history, credentials and personal paths. Workflow feedback is welcome, but the workflow is currently frozen."
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and version
+      description: OS, Python, client, repository version or commit.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal public reproduction
+      description: Command or steps, expected behavior, actual behavior, and relevant sanitized output.
+    validations:
+      required: true

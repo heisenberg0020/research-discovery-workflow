@@ -43,3 +43,15 @@ The separate report worker received an explicitly formal main objective with a s
 ### Interpretation limits
 
 These are small amended development exercises with a shared underlying assistant environment, not independent scientific reviewers, randomized comparisons or a study of workflow success rates. No real paper acquisition, field-scale novelty review, eligible empirical dataset qualification or experiment was tested. File preservation verifies version retention, not scientific correctness. The repository does not claim reliable generation quality from these observations.
+
+## Repository packaging checks — v1.1.0
+
+The scientific Workflow, original starter prompts, UI metadata and preparation helper remain unchanged from v1.0.0. This release adds presentation, optional installation/distribution tools and repository checks outside the frozen Skill. No new research-quality test or real research task was run.
+
+Local validation: **62 tests passed** (28 original checks, 21 distribution tests, 13 repository checks). The public checker verifies local document/asset references, current repository version, SVG structure and the 13 frozen file hashes; a direct Git comparison against v1.0.0 also found no changes in those files. The existing Skill metadata validator accepted the unchanged entrypoint.
+
+Distribution tests exercise write-free installer preview, payload preservation, existing-target refusal, clean tracked-source packaging, identical rebuilds and local file/checksum verification. The checksum and freeze records check retained-byte consistency, not signatures, scientific correctness, client memory control or research independence. Tests use temporary fixture repositories and installations rather than the user's live Skill directory.
+
+Public CI runs the configured standard-library checks on Linux Python 3.10/3.12 and macOS Python 3.12. The configuration is not a claim that a given run succeeded; actual receipts are in [GitHub Actions](https://github.com/heisenberg0020/research-discovery-workflow/actions). Client auto-discovery and platform-specific host isolation are outside these checks.
+
+A separate worker followed the public custom-target onboarding path in a temporary directory on macOS with Python 3.13.13. Preview wrote nothing; actual installation copied the 11 frozen Skill files and repository LICENSE unchanged; a repeated installation was refused without altering the first installation. The installed preparation helper produced an empty `prepared-not-started` run using the public brief template. The parent inspected the saved run index and compared the installed bytes. No global installation, model call, public research or experimental task ran. This demonstrates that limited local command path, not client auto-loading or isolation.

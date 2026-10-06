@@ -1,0 +1,19 @@
+{
+  "baseline_revision": "v1.0.0",
+  "baseline_commit": "894b429b51d2f3aeb35e5e4606260dbc91376e70",
+  "files": {
+    "docs/QUICKSTART.en.md": "d998e4cb249e3a76f2f7fd82343aa21f4213b91d9f960e40b3c3d47c79587c51",
+    "docs/STARTER_PROMPTS.zh-CN.md": "4a4767694b93827850b694ae526a0900804e7a334ab6c1c1b9e110b2c96af16b",
+    "skills/research-discovery-workflow/SKILL.md": "7e63003645ad5d6ffb9ff6930671c087a02b55c7447056d8fa9a7f380db84ccb",
+    "skills/research-discovery-workflow/agents/openai.yaml": "b908f8554537fbc4904d2a6c7dcf641a6ca8a0b5d38f5fb9b6bbae28c00185e2",
+    "skills/research-discovery-workflow/references/comparison-plan.md": "762209451b656aec216a7bbde1f833953ea5ffcd510d8f0ecacd5ab9a1632157",
+    "skills/research-discovery-workflow/references/discovery.md": "1179c8862fb5bbe0b0fd41d0bca0fbe1d45f5972040f8a55fcb1bbf3fe5bd51a",
+    "skills/research-discovery-workflow/references/evidence-and-mechanisms.md": "ee400913fca1e577637d8a1aacb6aa25eb34d61ce67fae30b36d67e83274b21d",
+    "skills/research-discovery-workflow/references/independent-review-and-repair.md": "918f11f8ca14acbdc7b3ec9954e16cebcd6ace2708e6a9442b96d3ce473897e7",
+    "skills/research-discovery-workflow/references/insight-reporting.md": "db42f224b52ee529a113292d25856f0770e97e6e0425953aad29a21fdefdad19",
+    "skills/research-discovery-workflow/references/isolation.md": "2f5c9ac386e66a450924c0a4406b1d53b6bd30afb7d19043ad336ca6ef57fcd2",
+    "skills/research-discovery-workflow/references/reconciliation-and-planning.md": "cf13d641ecb125c1ccfa00dd4b270339ba432c0a09b9052d809bae60507b100b",
+    "skills/research-discovery-workflow/references/upstream-capabilities.md": "2d19088cd2cc1ba15fd2dff0c774a95cec959dc4087bc02ab896bc0bc8b828d5",
+    "skills/research-discovery-workflow/scripts/prepare_run.py": "1a19d36bd5283479e838d5a64298b6ab374c7544ff867eb9d68bd4e690c23163"
+  }
+}
