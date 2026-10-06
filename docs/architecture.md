@@ -39,7 +39,7 @@ Q5-R 先检查当前独立成果，再做有依据的修补。Q6 根据有无指
 research-discovery-workflow/
 ├── README.md / README_EN.md       使用入口
 ├── docs/                         导览、冻结记录、使用与验证说明
-├── examples/                     中性 brief 与规划片段示例
+├── examples/                     双语中性 brief、完整教学案例与规划片段
 ├── scripts/                      安装、仓库检查、发行工具
 ├── skills/research-discovery-workflow/  冻结的可安装 Skill
 │   ├── SKILL.md
@@ -52,3 +52,5 @@ research-discovery-workflow/
 安装只复制 Skill 包，并附带根目录 MIT 许可证；不把仓库示例、旧候选或测试材料装入 Agent 指令。准备器只复制中性 brief 和冻结 Skill，创建 `prepared-not-started` 工作根。
 
 参考中的长期执行器、实验状态库、训练课程和证据账本不属于本仓库。科研内容与判断仍由 Agent 按冻结 Workflow 开展；文件检查通过不替代科学判断。
+
+完整教学案例见[截止时刻的信息价值](../examples/deadline-information/README.md)，其中分开保存原提案、纸面修订、正式比较方案与洞察报告；[双轮交接演示](../examples/deadline-information/two-pass.md)解释旧成果何时进入。它们是作者编写的示范，不是两轮实际独立运行记录，也不构成新增流程要求。开始自己的独立探索时只提供自己的中性 brief，不把案例答案作为输入。

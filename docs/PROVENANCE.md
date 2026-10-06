@@ -13,3 +13,9 @@ This package is a workflow aid, not a publication, benchmark result or validated
 At the user's request, the public repository form was informed by [cumcm-autonomous-harness](https://github.com/heisenberg0020/cumcm-autonomous-harness) at commit `7a7aeeaa6af11d1cae5d9726d6011d46b2f57d50` and [research-code-stewardship-lab](https://github.com/heisenberg0020/research-code-stewardship-lab) at commit `bf2ae99041008e8d61b63ce46dd57e9ab1b4610e`: clear entry points, bilingual navigation, diagrams, installation guidance, examples and explicit validation limits. Their runtime mechanisms, research material, images and prose were not copied. The banner and distribution helpers here are newly authored.
 
 The research Workflow itself remains byte-frozen at v1.0.0; see the [freeze record](FROZEN_WORKFLOW.md). Repository usability/version changes do not revise the scientific process or inherit the reference repositories' claims and licensing.
+
+## Authored educational example (1.2.0)
+
+The [deadline-information case](../examples/deadline-information/README_EN.md) is a newly authored, theory-only teaching reconstruction. Its source notes link to original papers and distinguish their established results from the example's own finite decision model, proposed comparison and unresolved research scope. No paper full text or figure is redistributed.
+
+The saved proposal, repaired version and two-pass handoff are scripted instructional artifacts, not transcripts of independent agent runs, empirical findings or evidence that this Workflow improves research quality. The mathematical illustration does not establish literature novelty. These example files remain outside the frozen, installed Skill and are not required research inputs or templates.

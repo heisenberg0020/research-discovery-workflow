@@ -34,7 +34,7 @@
 
 理解领域关心什么，也理解已有方法实际怎么工作；允许有依据的大胆构思，再把机制、强替代、比较和资源写具体。发现近邻不等于问题已经充分解决，缺少类似论文也不等于选题有价值。
 
-**科研 Workflow 已冻结在 v1.0.0。** 仓库 v1.1.0 只完善展示、安装、示例、检查和发行；Skill、引用指令、启动提示词及准备器保持字节不变。[冻结范围与核对 →](docs/FROZEN_WORKFLOW.md)
+**科研 Workflow 已冻结在 v1.0.0。** 仓库 v1.2.0 只完善展示、安装、示例、检查和发行；Skill、引用指令、启动提示词及准备器保持字节不变。[冻结范围与核对 →](docs/FROZEN_WORKFLOW.md)
 
 <a id="quick-start"></a>
 
@@ -47,11 +47,18 @@
 ```sh
 git clone https://github.com/heisenberg0020/research-discovery-workflow.git
 cd research-discovery-workflow
-python scripts/install.py --dry-run
-python scripts/install.py
+RDW_PYTHON=python3
+"$RDW_PYTHON" -c 'import sys; print(sys.executable, sys.version); raise SystemExit(0 if sys.version_info >= (3, 10) else "Python 3.10+ required")'
 ```
 
-安装器默认使用 `CODEX_HOME/skills`，未设置时使用 `$HOME/.codex/skills`；同名目标已存在就停止，不覆盖个人改动。预览不会创建文件。安装后在客户端确认 Skill 已重新加载；自定义安装、更新与发行包核验见[安装说明](docs/installation.md)。
+以上是 macOS/Linux 等 POSIX 终端写法。`python3` 只是候选命令；若不存在或版本不足，把 `RDW_PYTHON` 改为 `python` 或已安装的 Python 3.10+ 可执行路径，并重新检查。**版本检查成功后**，在同一终端继续：
+
+```sh
+"$RDW_PYTHON" scripts/install.py --dry-run
+"$RDW_PYTHON" scripts/install.py
+```
+
+安装器默认使用 `CODEX_HOME/skills`，未设置时使用 `$HOME/.codex/skills`；同名目标已存在就停止，不覆盖个人改动。预览不会创建文件。安装后按[只检查加载、不启动研究](docs/compatibility.md#loading-check)核对；自定义安装、更新、Windows 命令说明与 ZIP 解压前校验见[安装说明](docs/installation.md)。
 
 ### 2 / 给一份中性兴趣文档
 
@@ -119,7 +126,11 @@ Q7-A 逐方向回答四件事：**近邻已回答到哪里；两种竞争解释�
 
 ## 示例与预期成果
 
-[中性兴趣文档](examples/neutral-brief.md)说明如何给输入；[原创虚构规划片段](examples/README.md)展示从模糊题名到关系、强对照与资源问题的差别。示例没有真实文献结论或实验结果，不能当成熟选题直接使用。
+[中性兴趣文档](examples/neutral-brief.md)说明如何给输入；[示例导览](examples/README.md)包含短片段与完整教学案例。
+
+[截止前信息价值：完整注释案例](examples/deadline-information/README.md)展示：怎样从兴趣形成具体问题，来源怎样改变理解，Q5-R 实际修正了哪项关系，以及怎样形成比较方案和洞察式报告。[双轮延迟交接演示](examples/deadline-information/two-pass.md)说明何时、以什么范围引入第一轮，以及为什么第二轮不必胜出。
+
+完整案例使用可核对的公开来源，但其探索轨迹和双轮版本是**原创教学构造，不是两次真实独立运行的记录**；不包含实验成绩，不证明新颖性或 Workflow 有效性，也不是必须照抄的题目或模板。
 
 准备器预留原独立版、修订版和最终版目录。报告应保留定义机制，并解释已有答案、具体剩余机会、严肃替代和判别路线；可以使用少数连贯文档，不需要为了每个标题单独建文件。**文件供核查，不能替代对话中的洞察式讲解。**
 
@@ -128,11 +139,13 @@ Q7-A 逐方向回答四件事：**近邻已回答到哪里；两种竞争解释�
 ## 验证与边界
 
 ```sh
-python scripts/check_repo.py
-python -m unittest discover -s tests -v
+"$RDW_PYTHON" scripts/check_repo.py
+"$RDW_PYTHON" -m unittest discover -s tests -v
 ```
 
 检查覆盖冻结文件摘要、文档/资产链接、目录准备、临时安装和发行包。GitHub CI 的实际结果见上方徽章与 [Actions](https://github.com/heisenberg0020/research-discovery-workflow/actions)。
+
+若换了终端，先重新选择并检查 `RDW_PYTHON`，见快速开始。
 
 首版做过少量虚构材料行为试走，发现过范围与状态判断问题，并记录了修正及未覆盖范围。[验证记录 →](docs/VALIDATION.md)
 
@@ -148,6 +161,7 @@ python -m unittest discover -s tests -v
 | [第一轮、第二轮与交接提示词](docs/STARTER_PROMPTS.zh-CN.md) | [Workflow 冻结](docs/FROZEN_WORKFLOW.md) |
 | [原始 English quick start](docs/QUICKSTART.en.md) | [验证证据与限制](docs/VALIDATION.md) |
 | [中性输入与示例](examples/README.md) | [来源与许可](docs/PROVENANCE.md) |
+| [完整案例与双轮交接](examples/deadline-information/README.md) | [English installation](docs/installation.en.md) · [English compatibility](docs/compatibility.en.md) |
 | [兼容与常见问题](docs/compatibility.md) | [贡献指南](CONTRIBUTING.md) · [版本记录](CHANGELOG.md) |
 
 MIT 许可证。感谢 [lingzhi227/agent-research-skills](https://github.com/lingzhi227/agent-research-skills) 对七项 Phase 0 能力分类的启发；本仓库未复制其 Skill 文本与脚本。首页组织参考两个公开项目，图示与本仓库文稿原创，详情见[来源说明](docs/PROVENANCE.md)。私人科研材料不随仓库发布。

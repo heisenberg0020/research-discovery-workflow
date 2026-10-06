@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0 — 2026-10-06
+
+- Preserved the byte-frozen Workflow v1.0.0, including all original prompts and the workspace preparer.
+- Clarified Python executable/version selection, release-download checksum bootstrap and optional loading-only checks with an explicit-read fallback.
+- Added a complete short English onboarding path and neutral brief.
+- Added four ZIP-only consumer-path tests, including a Python version gate that still rejects unsupported versions under optimization.
+- Added a source-grounded, authored deadline-information teaching case: discovery-to-proposal explanations, separate original/repaired snapshots, a formal comparison plan and an illustrative delayed two-pass handoff.
+- Labeled the case as an educational reconstruction, not a recorded independent run, novelty claim, empirical experiment or workflow-quality evaluation.
+
 ## 1.1.0 — 2026-10-06
 
 - Kept Workflow v1.0.0 byte-frozen; no changes to the Skill, references, preparation helper or original startup prompts.

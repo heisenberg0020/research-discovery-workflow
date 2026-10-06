@@ -28,7 +28,7 @@ This portable Skill supports open-ended topic selection, literature-to-idea synt
 
 It is a planning Skill, not an experiment execution harness. Its default work is literature, theory, and static code understanding. Planning does not authorize implementation, training, or experiments.
 
-Repository **v1.1.0** improves onboarding and distribution. The scientific workflow remains the byte-frozen **v1.0.0** workflow; see the [freeze boundary](docs/FROZEN_WORKFLOW.md) and [changelog](CHANGELOG.md). The v1.0.0 release remains available.
+Repository **v1.2.0** improves onboarding and public teaching examples. The scientific workflow remains the byte-frozen **v1.0.0** workflow; see the [freeze boundary](docs/FROZEN_WORKFLOW.md) and [changelog](CHANGELOG.md). Earlier releases remain available.
 
 ## Quick start
 
@@ -37,13 +37,20 @@ Use Python 3.10 or newer. The package helpers use the Python standard library.
 ```bash
 git clone https://github.com/heisenberg0020/research-discovery-workflow.git
 cd research-discovery-workflow
-python scripts/install.py --dry-run
-python scripts/install.py
+RDW_PYTHON=python3
+"$RDW_PYTHON" -c 'import sys; print(sys.executable, sys.version); raise SystemExit(0 if sys.version_info >= (3, 10) else "Python 3.10+ required")'
 ```
 
-The installer refuses to overwrite an existing Skill. Its default destination is `$CODEX_HOME/skills` when `CODEX_HOME` is configured, otherwise `~/.codex/skills`. Read [installation and updates](docs/installation.md) for destination choices, existing installations, and release packages. Installing files does not guarantee that a host immediately refreshes its Skill list.
+These are POSIX-shell commands, suitable for macOS/Linux. `python3` is a candidate, not a guaranteed version. If it is missing or older, select `python` or the full path of an installed Python 3.10+ executable, then repeat the check. **Only after it succeeds**, continue in the same terminal:
 
-Copy [the neutral brief](examples/neutral-brief.md) to a personal file and edit it with your actual topic, research goal, evidence scope, constraints, and resources. Keep previous proposals, rankings, architectures, and results out of this first-pass input.
+```sh
+"$RDW_PYTHON" scripts/install.py --dry-run
+"$RDW_PYTHON" scripts/install.py
+```
+
+The installer refuses to overwrite an existing Skill. Its default destination is `$CODEX_HOME/skills` when `CODEX_HOME` is configured, otherwise `~/.codex/skills`. Read [English installation and updates](docs/installation.en.md) for destination choices, Windows command notes, and release checksums before extraction. Installing files does not guarantee that a host refreshes its Skill list; use the optional [loading-only check](docs/compatibility.en.md#loading-check), which starts no research.
+
+Copy [the English neutral brief](examples/neutral-brief.en.md) to a personal file and edit it with your actual topic, research goal, evidence scope, constraints, and resources. Keep previous proposals, rankings, architectures, and results out of this first-pass input.
 
 Start a **fresh, non-forked chat** with that brief and a new, scoped output workspace. Invoke the installed Skill using this planning-only request, replacing both paths:
 
@@ -71,7 +78,7 @@ Do not implement the proposal, run experiments, train models, or resume
 previous experiments. Stop after the planning deliverable.
 ```
 
-A prepared directory does not create a fresh conversation, clear memory, or restrict file access. Use the [compatibility guide](docs/compatibility.md) to understand what your host supports. Repository helpers and onboarding documents are optional wrappers around the frozen workflow.
+A prepared directory does not create a fresh conversation, clear memory, or restrict file access. Use the [English compatibility guide](docs/compatibility.en.md) to understand what your host supports, including an explicit-read fallback. Repository helpers and onboarding documents are optional wrappers around the frozen workflow.
 
 ## Workflow
 
@@ -109,31 +116,37 @@ For **two passes**, complete pass 1 through Q7. Start pass 2 in a fresh context 
 
 ## Examples
 
-Start with the [examples guide](examples/README.md) and [neutral brief](examples/neutral-brief.md). The examples show how an author can supply neutral inputs and describe planning outputs using explicitly illustrative material.
+Read the [complete annotated case in English](examples/deadline-information/README_EN.md): public source understanding, concrete construction, separate Q5 original and repairs, formal comparisons, and an insight-rich final explanation. Its [two-pass handoff demonstration](examples/deadline-information/two-pass.md) shows the authorized packet and its delayed delivery, with English notes.
+
+This is an **authored educational reconstruction, not a record of two actual independent runs**. Sources are real; candidate versions and the discovery storyline are teaching constructs. It includes no empirical performance, novelty claim, or evidence that the Workflow improves research quality. The original [short illustrative fragment](examples/README.md) remains available in Chinese.
 
 A run normally leaves a lightweight `RUN.md` index, independent proposals, separate retrospective and repair records, applicable reconciliation, comparison plans, and a final explanation. Actual scientific content and unresolved dependencies matter more than a file inventory.
 
-Host support and the distinction between preparation and isolation are documented in [compatibility](docs/compatibility.md). Optional integrations are described by the Skill; they are not required to use the workflow.
+Host support and the distinction between preparation and isolation are documented in [English compatibility](docs/compatibility.en.md). Optional integrations are described by the Skill; they are not required to use the workflow.
 
 ## Validation
 
 From the repository root:
 
 ```bash
-python scripts/check_repo.py
-python -m unittest discover -s tests -v
+"$RDW_PYTHON" scripts/check_repo.py
+"$RDW_PYTHON" -m unittest discover -s tests -v
 ```
 
 These checks cover public repository contracts and behavior represented by fictional fixtures. They require no experiments, external model calls, or live topic research. Passing them does not prove proposal novelty, scientific validity, or experiment success. See [validation scope](docs/VALIDATION.md) for the checks and their limits.
+
+If this is a new terminal, select and check `RDW_PYTHON` again before running these commands.
 
 ## Docs
 
 | Read this | For |
 | --- | --- |
-| [Installation](docs/installation.md) | Install, inspect destinations, and update without overwriting |
+| [English installation](docs/installation.en.md) | Install, inspect destinations, and update without overwriting |
 | [Architecture](docs/architecture.md) | Repository layout and the roles of Skill, helpers, and documentation |
-| [Compatibility](docs/compatibility.md) | Host capabilities, fresh-context limits, and optional integrations |
-| [Frozen workflow](docs/FROZEN_WORKFLOW.md) | The scientific v1.0.0 boundary retained by repository v1.1.0 |
+| [English compatibility](docs/compatibility.en.md) | Host capabilities, fresh-context limits, and optional integrations |
+| [Annotated English case](examples/deadline-information/README_EN.md) | Understand concrete proposals, repairs and delayed handoff |
+| [English neutral brief](examples/neutral-brief.en.md) | Editable optional starting input |
+| [Frozen workflow](docs/FROZEN_WORKFLOW.md) | The scientific v1.0.0 boundary retained by repository v1.2.0 |
 | [English quickstart](docs/QUICKSTART.en.md) | The original workflow usage guide |
 | [中文启动提示](docs/STARTER_PROMPTS.zh-CN.md) | Chinese starter prompts |
 | [Validation](docs/VALIDATION.md) | Package checks, fictional fixtures, and claims they cannot establish |

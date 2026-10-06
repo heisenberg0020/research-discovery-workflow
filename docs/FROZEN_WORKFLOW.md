@@ -1,6 +1,6 @@
 # Workflow 冻结与仓库版本
 
-**科研 Workflow 冻结在 v1.0.0。仓库 v1.1.0 只完善使用与分发。**
+**科研 Workflow 冻结在 v1.0.0。仓库 v1.2.0 只完善使用、示例与分发。**
 
 基准是 [v1.0.0](https://github.com/heisenberg0020/research-discovery-workflow/tree/v1.0.0)，提交 `894b429b51d2f3aeb35e5e4606260dbc91376e70`。本次不是流程迭代，也没有增加科研门槛。
 
@@ -20,10 +20,10 @@
 
 ## 如何核对
 
-在仓库或解压后的发行包根目录：
+在仓库或解压后的发行包根目录，先按[安装说明](installation.md#2-选择并核对-python)选择并核对 Python 3.10+，在同一终端执行：
 
 ```sh
-python scripts/check_repo.py
+"$RDW_PYTHON" scripts/check_repo.py
 ```
 
 在包含旧标签的源码仓库还可直接核对：
