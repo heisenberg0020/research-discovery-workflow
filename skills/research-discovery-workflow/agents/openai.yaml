@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Discovery Workflow"
+  short_description: "Discover research opportunities and build concrete proposals"
+  default_prompt: "Use $research-discovery-workflow to explore a research field independently, repair the proposals, and explain their research value."
