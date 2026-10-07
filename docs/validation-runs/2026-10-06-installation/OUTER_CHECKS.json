@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-06",
+  "scope": "Fourth-batch outer repository helpers; no scientific experiments or model calls in these checks.",
+  "suite": {
+    "command": "{PYTHON_3_12} -B -m unittest discover -s tests -q",
+    "python_version": "3.12.14",
+    "tests_run": 94,
+    "passed": 94,
+    "seconds": 4.272,
+    "additional_worker_check": "An earlier Python 3.13 check passed all then-existing 90 tests; the final 94-test suite was run with Python 3.12.14."
+  },
+  "earlier_check": {
+    "python_version": "3.9.6",
+    "tests_run": 89,
+    "failure": "The existing onboarding version command rejected Python below 3.10, as intended.",
+    "error": "A newly adapted package-test fixture used an unresolved temporary root, causing a canonical-path mismatch on macOS.",
+    "repair": "Resolved only that test fixture root and reran with a supported interpreter. The Python version gate was not weakened."
+  },
+  "public_package_check": "passed",
+  "git_diff_check": "passed",
+  "read_only_review": "A separate maintenance worker reproduced the angle-link, list-indentation and literal-label-code cases, found no remaining defect in those cases, and did not claim to rerun the full suite or certify a complete Markdown renderer.",
+  "resume_recheck": {"date": "2026-10-07", "python_version": "3.12.14", "tests_run": 94, "passed": 94, "seconds": 4.254},
+  "final_review_recheck": {
+    "date": "2026-10-07", "python_version": "3.12.14", "tests_run": 105, "passed": 105, "seconds": 4.444,
+    "repairs": ["empty image/link labels", "indented paragraph continuation", "angle destinations and quoted titles", "code-span brackets in labels", "drive/stream syntax in every evidence path component and final containment", "unencodable evidence filenames", "parse local targets before placeholder masking"],
+    "intermediate_run": "105 tests; one failure exposed path-placeholder parsing order. Fixed the exporter ordering without rerunning or modifying historical scientific outputs.",
+    "independent_recheck": "48 focused synthetic tests passed; six reproduced defects and export ordering no longer reproduced; all 74 published historical CLI evidence files byte-identical to HEAD. Native Windows remains unrun."
+  },
+  "frozen_workflow": {"baseline": "v1.0.0", "files": 13, "byte_changes": 0},
+  "historical_scientific_evidence": "Existing published records and hashes preserved; the export tool implementation changed, not the old exported scientific outputs.",
+  "not_established": ["new default user-directory host loading", "legacy host loading", "research quality", "filesystem or memory isolation"]
+}

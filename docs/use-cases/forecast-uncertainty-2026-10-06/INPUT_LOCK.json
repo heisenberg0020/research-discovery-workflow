@@ -1,0 +1,14 @@
+{
+  "format_version": 1,
+  "brief": "BRIEF.md",
+  "brief_sha256": "3619037a9cbeb7fbf8b5caa4cec6016a2eca141ae36ebba7539c4a6c80fff1ac",
+  "workflow_revision": "v1.0.0",
+  "workflow_baseline_commit": "894b429b51d2f3aeb35e5e4606260dbc91376e70",
+  "workflow_inventory": "../../workflow-freeze.json",
+  "passes": [
+    {"alias": "pass-1", "brief_sha256": "3619037a9cbeb7fbf8b5caa4cec6016a2eca141ae36ebba7539c4a6c80fff1ac", "initial_prior_material": "none", "target": "Q0-Q7; Q6 not_applicable"},
+    {"alias": "pass-2", "brief_sha256": "3619037a9cbeb7fbf8b5caa4cec6016a2eca141ae36ebba7539c4a6c80fff1ac", "initial_prior_material": "none", "target": "Q0-Q5-R then pending_handoff; Q6-Q7 only after recorded handoff"}
+  ],
+  "scope": "Public-source discovery, paper reasoning and planning only; no scientific experiment or global installation.",
+  "isolation_limit": "Fresh worker contexts and instructed roots, not a filesystem sandbox or proof that host-wide memory is disabled."
+}

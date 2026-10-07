@@ -142,16 +142,31 @@ class InstallerTests(TemporaryFixtureTests):
                         INSTALL.install_skill(destination, dry_run=dry_run)
                     self.assertEqual(snapshot(destination), before)
 
-    def test_default_destinations_stay_in_temporary_fixture(self):
+    def test_default_user_destination_ignores_codex_home_and_writes_nothing(self):
         temporary_codex = self.base / "fictional-codex-home"
-        with mock.patch.dict(os.environ, {"CODEX_HOME": str(temporary_codex)}):
+        with mock.patch.dict(os.environ, {"CODEX_HOME": str(temporary_codex)}), mock.patch.object(Path, "home", return_value=self.base):
             target = INSTALL.install_skill(dry_run=True)
-            self.assertEqual(target, temporary_codex / "skills" / SKILL_NAME)
+            self.assertEqual(target, self.base / ".agents" / "skills" / SKILL_NAME)
         with mock.patch.dict(os.environ, {}, clear=True), mock.patch.object(Path, "home", return_value=self.base):
             target = INSTALL.install_skill(dry_run=True)
-            self.assertEqual(target, self.base / ".codex" / "skills" / SKILL_NAME)
+            self.assertEqual(target, self.base / ".agents" / "skills" / SKILL_NAME)
         self.assertFalse(temporary_codex.exists())
+        self.assertFalse((self.base / ".agents").exists())
         self.assertFalse((self.base / ".codex").exists())
+
+    def test_explicit_legacy_destination_remains_available_without_overwrite(self):
+        legacy_destination = self.base / ".codex" / "skills"
+        with contextlib.redirect_stdout(io.StringIO()):
+            status = INSTALL.main(["--dest", str(legacy_destination)])
+        self.assertEqual(status, 0)
+        target = legacy_destination / SKILL_NAME
+        self.assertEqual((target / "SKILL.md").read_bytes(), (self.skill / "SKILL.md").read_bytes())
+        before = snapshot(self.base)
+        with contextlib.redirect_stderr(io.StringIO()):
+            status = INSTALL.main(["--dest", str(legacy_destination)])
+        self.assertEqual(status, 2)
+        self.assertEqual(snapshot(self.base), before)
+        self.assertFalse((self.base / ".agents").exists())
 
     def test_missing_license_payload_and_source_links_fail_before_destination_creation(self):
         for path in (self.license_path, self.skill / "SKILL.md", self.skill / "references"):

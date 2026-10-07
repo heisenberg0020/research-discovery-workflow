@@ -280,6 +280,103 @@ class EvidenceExportTests(unittest.TestCase):
         self.assertEqual(counts["markdown_local_links"], 3)
         self.assertEqual(counts["final_local_markdown_links"], 2)
 
+    def test_markdown_code_spans_and_fences_remain_literal_while_prose_links_convert(self):
+        code = (
+            '```python\nrule = "[q](x)"\n[example](output/not-a-rendered-link.md)\n```\n'
+            "~~~markdown\n[tilde example](output/example.md)\n~~~\n"
+            '    rule = "[indented](x)"\n\t[tab code](output/example.md)\n'
+            "Inline `[q](x)` and ``[label](output/file.md) `literal` `` remain code.\n"
+            "Multiline `code [label](output/file.md)\ncontinued` remains code.\n"
+        )
+        prose = "[actual report](output/report.md)\n"
+        self.raw("final.md", (code + prose).encode())
+        (self.artifacts / "report.md").write_text(code + prose)
+        self.export()
+        expected = code + "actual report (`output/report.md`)\n"
+        self.assertEqual((self.output / "final.md").read_text(), expected)
+        self.assertEqual((self.output / "output/report.md").read_text(), expected)
+        self.assertEqual(self.public_json("export.json")["redactions"]["markdown_local_links"], 2)
+
+    def test_balanced_parentheses_escaped_text_and_unclosed_links_are_preserved(self):
+        text = (
+            "[report](output/report(1).md) [nested](output/a(b(c)).md)\n"
+            "![figure](output/figure(2).svg)\n"
+            "[paper](https://example.invalid/paper(1))\n"
+            r"\[literal](output/literal.md) [escaped](output/report\(1\).md)" + "\n"
+            "[unclosed](output/report(1).md\n"
+        )
+        self.raw("final.md", text.encode())
+        self.export()
+        self.assertEqual((self.output / "final.md").read_text(), (
+            "report (`output/report(1).md`) nested (`output/a(b(c)).md`)\n"
+            "figure (`output/figure(2).svg`)\n"
+            "[paper](https://example.invalid/paper(1))\n"
+            r"\[literal](output/literal.md) escaped (`output/report\(1\).md`)" + "\n"
+            "[unclosed](output/report(1).md\n"
+        ))
+
+    def test_angle_external_targets_and_titles_keep_clickable_source_links(self):
+        text = (
+            '[paper](<https://example.invalid/paper(1)> "Source title")\n'
+            '[mail](<mailto:source@example.invalid>) [section](<#here>)\n'
+            '[network](<//example.invalid/source>)\n'
+            '[local](<output/report(1).md> "Local title")\n'
+        )
+        self.raw("final.md", text.encode())
+        self.export()
+        self.assertEqual((self.output / "final.md").read_text(), text.replace(
+            '[local](<output/report(1).md> "Local title")',
+            'local (`<output/report(1).md> "Local title"`)'
+        ))
+        self.assertEqual(self.public_json("export.json")["redactions"]["markdown_local_links"], 1)
+
+    def test_list_continuation_prose_converts_while_nested_code_stays_literal(self):
+        text = (
+            '1. Parent item\n\n'
+            '    [report](output/report(1).md)\n\n'
+            '        rule = "[code](not-a-link.md)"\n\n'
+            '    ```python\n    rule = "[fenced](not-a-link.md)"\n    ```\n'
+        )
+        self.raw("final.md", text.encode())
+        self.export()
+        self.assertEqual((self.output / "final.md").read_text(), text.replace(
+            '[report](output/report(1).md)', 'report (`output/report(1).md`)'
+        ))
+        self.assertEqual(self.public_json("export.json")["redactions"]["markdown_local_links"], 1)
+
+    def test_empty_labels_and_literal_label_brackets_still_convert_local_links(self):
+        text = '![](output/figure.svg) [Literal `[`](output/report.md)\n'
+        self.raw("final.md", text.encode())
+        self.export()
+        self.assertEqual((self.output / "final.md").read_text(),
+                         ' (`output/figure.svg`) Literal `[` (`output/report.md`)\n')
+        self.assertEqual(self.public_json("export.json")["redactions"]["markdown_local_links"], 2)
+
+    def test_indented_paragraph_links_convert_but_actual_code_remains_literal(self):
+        text = 'Paragraph\n    [report](output/report.md)\n\n    [literal](output/example.md)\n'
+        self.raw("final.md", text.encode())
+        self.export()
+        self.assertEqual((self.output / "final.md").read_text(), text.replace(
+            '[report](output/report.md)', 'report (`output/report.md`)'
+        ))
+        self.assertEqual(self.public_json("export.json")["redactions"]["markdown_local_links"], 1)
+
+    def test_angle_sources_keep_unbalanced_parentheses_unchanged(self):
+        text = '[paper](<https://example.invalid/paper)>) [local](<output/report(.md>)\n'
+        self.raw("final.md", text.encode())
+        self.export()
+        self.assertEqual((self.output / "final.md").read_text(), text.replace(
+            '[local](<output/report(.md>)', 'local (`<output/report(.md>`)'
+        ))
+
+    def test_quoted_title_parentheses_are_not_link_delimiters(self):
+        text = '[local](output/report.md "A( title") [paper](https://example.invalid/paper \'A) title\')\n'
+        self.raw("final.md", text.encode())
+        self.export()
+        self.assertEqual((self.output / "final.md").read_text(), text.replace(
+            '[local](output/report.md "A( title")', 'local (`output/report.md "A( title"`)'
+        ))
+
     def test_mathematical_division_tables_and_logical_agent_names_are_preserved(self):
         mathematical_text = (
             "q=(x−20)/5\na=(q+1)/2\n(1/3)/4\nx / y\n"

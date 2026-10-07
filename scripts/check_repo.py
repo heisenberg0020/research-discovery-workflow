@@ -4,7 +4,9 @@
 Only named root documents and the docs/examples/skills trees are inspected.
 Network links, research runs, caches, distribution output, and neighbors are not
 scanned. The workflow manifest checks unchanged bytes, not scientific correctness.
-SVG checks concern XML and descriptive structure, not content safety.
+Published evidence summaries check their declared public-file hashes, without
+reading original execution logs. SVG checks concern XML and descriptive structure,
+not content safety.
 """
 
 from __future__ import annotations
@@ -34,10 +36,6 @@ IGNORED_DIRECTORIES = {
     "dist", "build", "node_modules",
 }
 SEMVER = re.compile(r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\Z")
-MARKDOWN_LINK = re.compile(
-    r"!?\[[^\]\n]*\]\(\s*(<[^>\n]+>|[^\s)]+)"
-    r"(?:\s+['\"][^\n]*?['\"])?\s*\)"
-)
 REFERENCE_LINK = re.compile(
     r"^\s{0,3}\[[^\]\n]+\]:\s*(<[^>\n]+>|\S+)", re.MULTILINE
 )
@@ -75,21 +73,188 @@ def _read_text(path: Path, root: Path, issues: list[str]) -> str | None:
         return None
 
 
-def _without_fences(text: str) -> str:
+def markdown_chunks(value: str):
+    """Separate fenced/indented code while retaining text and newline bytes."""
     lines = []
     fence = None
-    for line in text.splitlines():
-        marker = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
-        if marker:
-            token = marker.group(1)
-            if fence is None:
-                fence = token
-            elif token[0] == fence[0] and len(token) >= len(fence):
-                fence = None
-            lines.append("")
+    list_indents = []
+    paragraph_open = False
+    for line in value.splitlines(keepends=True):
+        expanded = line.expandtabs(4)
+        indent = len(expanded) - len(expanded.lstrip(" "))
+        if fence is None and expanded.strip():
+            while list_indents and indent < list_indents[-1]:
+                list_indents.pop()
+            item = re.match(r"^ *(?:[-+*]|[0-9]{1,9}[.)]) {1,4}(?=\S)", expanded)
+            if item:
+                list_indents.append(item.end())
+        content_indent = list_indents[-1] if list_indents else 0
+        # Four columns inside a list can be a rendered continuation paragraph,
+        # not code. Interpret code indentation relative to the list content.
+        fence_text = expanded[content_indent:] if indent >= content_indent else expanded
+        marker = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)", fence_text)
+        if fence is None and marker:
+            if lines:
+                yield "".join(lines), False
+            lines = [line]
+            fence = marker.group(1)
+            paragraph_open = False
+        elif fence is not None:
+            lines.append(line)
+            if (marker and marker.group(1)[0] == fence[0]
+                    and len(marker.group(1)) >= len(fence)
+                    and not marker.group(2).strip()):
+                yield "".join(lines), True
+                lines, fence = [], None
+        elif expanded.strip() and indent >= content_indent + 4 and not paragraph_open:
+            if lines:
+                yield "".join(lines), False
+                lines = []
+            yield line, True
         else:
-            lines.append(line if fence is None else "")
-    return "\n".join(lines)
+            lines.append(line)
+            visible = fence_text.lstrip()
+            # Indented code cannot interrupt a paragraph. Blank lines, headings,
+            # rules and reference definitions end the small helper's paragraph.
+            paragraph_open = bool(visible.strip()) and not (
+                re.match(r"#{1,6}(?:\s|$)", visible)
+                or re.fullmatch(r"(?:=+|-+|(?:\*\s*){3,}|(?:_\s*){3,})\s*", visible)
+                or REFERENCE_LINK.match(visible)
+            )
+    if lines:
+        yield "".join(lines), fence is not None
+
+
+def _code_span_end(value: str, start: int) -> int | None:
+    opening = re.match(r"`+", value[start:]).group()
+    closing = next((match for match in re.finditer(r"`+", value[start + len(opening):])
+                    if len(match.group()) == len(opening)), None)
+    return start + len(opening) + closing.end() if closing is not None else None
+
+
+def inline_link(value: str, start: int) -> tuple[int, str, str] | None:
+    """Read a direct link/image with escaped characters and balanced brackets."""
+    opening = start + 1 if value[start] == "!" else start
+    if value[opening:opening + 1] != "[":
+        return None
+    index, depth = opening + 1, 1
+    while index < len(value) and value[index] != "\n":
+        character = value[index]
+        if character == "\\":
+            index += 2
+            continue
+        if character == "`":
+            end = _code_span_end(value, index)
+            if end is not None:
+                index = end
+                continue
+        if character == "[":
+            depth += 1
+        elif character == "]":
+            depth -= 1
+            if depth == 0:
+                break
+        index += 1
+    if depth or value[index + 1:index + 2] != "(":
+        return None
+    label = value[opening + 1:index]
+    target_start = index + 2
+    index = target_start
+    while index < len(value) and value[index] in " \t":
+        index += 1
+    if value[index:index + 1] == "<":
+        index += 1
+        while index < len(value) and value[index] not in ">\n\r<":
+            index += 2 if value[index] == "\\" else 1
+        if value[index:index + 1] != ">":
+            return None
+        index += 1
+    else:
+        depth = 0
+        while index < len(value) and value[index] not in " \t\n\r":
+            character = value[index]
+            if character == "\\":
+                index += 2
+                continue
+            if character == "(":
+                depth += 1
+            elif character == ")":
+                if not depth:
+                    break
+                depth -= 1
+            elif character in "<>":
+                return None
+            index += 1
+        if depth:
+            return None
+    destination_end = index
+    while index < len(value) and value[index] in " \t":
+        index += 1
+    # Optional quoted/parenthesized titles are separate from the destination;
+    # parentheses inside a quoted title do not change the link's depth.
+    if index > destination_end and value[index:index + 1] in ('"', "'", "("):
+        delimiter = ")" if value[index] == "(" else value[index]
+        index += 1
+        while index < len(value) and value[index] not in (delimiter, "\n", "\r"):
+            index += 2 if value[index] == "\\" else 1
+        if value[index:index + 1] != delimiter:
+            return None
+        index += 1
+        while index < len(value) and value[index] in " \t":
+            index += 1
+    if value[index:index + 1] != ")":
+        return None
+    target = value[target_start:index].strip()
+    return (index + 1, label, target) if target else None
+
+
+def _mask_code(value: str) -> str:
+    return re.sub(r"[^\n]", " ", value)
+
+
+def rewrite_prose_links(value: str, replace, *, mask_code: bool = False) -> str:
+    """Visit rendered direct links, preserving escapes and backtick code spans.
+
+    The callback receives label, target, original markup and its character offset.
+    The optional code mask retains line numbers for document-link inspection.
+    This is a small package-text helper, not a complete Markdown renderer.
+    """
+    result = []
+    index = 0
+    while index < len(value):
+        if value[index] == "\\":
+            result.append(value[index:index + 2])
+            index += 2
+            continue
+        if value[index] == "`":
+            opening = re.match(r"`+", value[index:]).group()
+            end = _code_span_end(value, index)
+            if end is not None:
+                result.append(_mask_code(value[index:end]) if mask_code else value[index:end])
+                index = end
+                continue
+            result.append(opening)
+            index += len(opening)
+            continue
+        if value[index] in ("[", "!"):
+            link = inline_link(value, index)
+            if link is not None:
+                end, label, target = link
+                result.append(replace(label, target, value[index:end], index))
+                index = end
+                continue
+        result.append(value[index])
+        index += 1
+    return "".join(result)
+
+
+def _link_destination(value: str) -> str:
+    """Discard optional link titles and decode Markdown punctuation escapes."""
+    if value.startswith("<") and ">" in value:
+        target = value[1:value.index(">")]
+    else:
+        target = value.split(maxsplit=1)[0]
+    return re.sub(r"\\([!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~])", r"\1", target)
 
 
 class _HTMLTargets(HTMLParser):
@@ -106,12 +271,31 @@ class _HTMLTargets(HTMLParser):
 
 
 def _document_targets(text: str) -> list[tuple[int, str]]:
-    visible = _without_fences(text)
     targets = []
-    for expression in (MARKDOWN_LINK, REFERENCE_LINK):
-        for match in expression.finditer(visible):
-            targets.append((visible.count("\n", 0, match.start()) + 1,
-                            match.group(1).strip("<>")))
+    chunks = []
+    offset = 0
+    for chunk, code in markdown_chunks(text):
+        if code:
+            chunks.append(_mask_code(chunk))
+        else:
+            def collect(_label, target, original, start):
+                targets.append((text.count("\n", 0, offset + start) + 1,
+                                _link_destination(target)))
+                label_view = rewrite_prose_links(
+                    _label, lambda _l, _t, markup, _s: markup, mask_code=True
+                )
+                prefix_length = 2 if original.startswith("![") else 1
+                # The HTML view may inspect rendered label HTML, but not literal
+                # label code, the Markdown destination, or an optional title.
+                return (_mask_code(original[:prefix_length]) + label_view
+                        + _mask_code(original[prefix_length + len(_label):]))
+
+            chunks.append(rewrite_prose_links(chunk, collect, mask_code=True))
+        offset += len(chunk)
+    visible = "".join(chunks)
+    for match in REFERENCE_LINK.finditer(visible):
+        targets.append((visible.count("\n", 0, match.start()) + 1,
+                        _link_destination(match.group(1))))
     parser = _HTMLTargets()
     parser.feed(visible)
     return targets + parser.targets
@@ -221,6 +405,69 @@ def _check_freeze(root: Path, issues: list[str]) -> None:
             issues.append(f"{name}: bytes differ from the frozen workflow baseline")
 
 
+def _check_evidence_exports(root: Path, issues: list[str]) -> None:
+    """Check existing case summaries only; original logs are outside this scope."""
+    validation_root = root / "docs/validation-runs"
+    for manifest_path in _files_in_tree(validation_root):
+        parts = manifest_path.relative_to(validation_root).parts
+        if len(parts) != 4 or parts[1] != "evidence" or parts[-1] != "export.json":
+            continue
+        location = manifest_path.relative_to(root).as_posix()
+        text = _read_text(manifest_path, root, issues)
+        if text is None:
+            continue
+        try:
+            manifest = json.loads(text)
+        except json.JSONDecodeError as exc:
+            issues.append(f"{location}: invalid evidence JSON ({exc})")
+            continue
+        if (not isinstance(manifest, dict) or type(manifest.get("format_version")) is not int
+                or manifest["format_version"] != 1
+                or not isinstance(manifest.get("public_files"), dict)
+                or not manifest["public_files"]):
+            issues.append(f"{location}: expected format_version 1 and a nonempty public_files-to-SHA256 mapping")
+            continue
+        for name, digest in sorted(manifest["public_files"].items()):
+            path = PurePosixPath(name)
+            try:
+                name.encode("utf-8")
+            except UnicodeError:
+                issues.append(f"{location}: invalid public evidence path {name!r}")
+                continue
+            if (not name or not path.parts or path.is_absolute() or ".." in path.parts
+                    or "\\" in name or str(path) != name or any(":" in part for part in path.parts)
+                    or any(character in name for character in ("\n", "\r", "\x00"))
+                    or set(path.parts) & IGNORED_DIRECTORIES):
+                issues.append(f"{location}: invalid public evidence path {name!r}")
+                continue
+            if name == manifest_path.name:
+                issues.append(f"{location}: public_files must exclude the summary itself")
+                continue
+            if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+                issues.append(f"{location}: invalid public evidence SHA256 for {name}")
+                continue
+            target = manifest_path.parent
+            for part in path.parts:
+                target = target / part
+                if target.is_symlink():
+                    issues.append(f"{location}: public evidence must be a local regular file: {name}")
+                    break
+            else:
+                if not target.resolve().is_relative_to(manifest_path.parent.resolve()):
+                    issues.append(f"{location}: public evidence must stay inside its case: {name}")
+                    continue
+                if not target.is_file():
+                    issues.append(f"{location}: declared public evidence file is missing: {name}")
+                    continue
+                try:
+                    current = hashlib.sha256(target.read_bytes()).hexdigest()
+                except OSError as exc:
+                    issues.append(f"{location}: cannot read public evidence {name} ({exc})")
+                    continue
+                if current != digest:
+                    issues.append(f"{location}: public evidence SHA256 mismatch: {name}")
+
+
 def check_repository(root: Path) -> list[str]:
     root = Path(root).resolve()
     if not root.is_dir():
@@ -259,6 +506,7 @@ def check_repository(root: Path) -> list[str]:
                 issues.append(f"{location}: missing local link or asset: {link}")
     _check_skill(root, issues)
     _check_freeze(root, issues)
+    _check_evidence_exports(root, issues)
     for svg in _files_in_tree(root / "docs/images"):
         if svg.suffix.lower() != ".svg":
             continue
@@ -297,7 +545,7 @@ def main(argv: list[str] | None = None) -> int:
     if issues:
         print("\n".join(issues), file=sys.stderr)
         return 1
-    print("Public package links, resources, version, SVG structure, and workflow freeze passed.")
+    print("Public package links, resources, version, SVG structure, evidence summaries, and workflow freeze passed.")
     print("These checks do not establish client isolation or research quality.")
     return 0
 

@@ -28,7 +28,7 @@ This portable Skill supports open-ended topic selection, literature-to-idea synt
 
 It is a planning Skill, not an experiment execution harness. Its default work is literature, theory, and static code understanding. Planning does not authorize implementation, training, or experiments.
 
-Repository **v1.3.0** adds actual client and fictional behavior evidence alongside onboarding and public teaching examples. The scientific workflow remains the byte-frozen **v1.0.0** workflow; see the [freeze boundary](docs/FROZEN_WORKFLOW.md) and [changelog](CHANGELOG.md). Earlier releases remain available.
+Repository **v1.4.0** improves installation, startup navigation and evidence handling alongside public use cases. The scientific workflow remains the byte-frozen **v1.0.0** workflow; see the [freeze boundary](docs/FROZEN_WORKFLOW.md) and [changelog](CHANGELOG.md). Earlier releases remain available.
 
 ## Quick start
 
@@ -48,17 +48,19 @@ These are POSIX-shell commands, suitable for macOS/Linux. `python3` is a candida
 "$RDW_PYTHON" scripts/install.py
 ```
 
-The installer refuses to overwrite an existing Skill. Its default destination is `$CODEX_HOME/skills` when `CODEX_HOME` is configured, otherwise `~/.codex/skills`. Read [English installation and updates](docs/installation.en.md) for destination choices, Windows command notes, and release checksums before extraction. Installing files does not guarantee that a host refreshes its Skill list; use the optional [loading-only check](docs/compatibility.en.md#loading-check), which starts no research.
+The installer defaults to `.agents/skills` in the current user's home directory (`$HOME/.agents/skills` in POSIX notation), matching the USER location in the [official Skill loading table](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills). `CODEX_HOME` does not change this helper's default. Use `--dest` for a legacy or custom location; the installer does not automatically migrate, delete, or overwrite existing copies. Preview writes nothing.
+
+File installation is not host discovery. Existing actual receipts cover the project-level `.agents/skills` path, not a real installation/loading test of the new user-level default. Read [English installation and updates](docs/installation.en.md) for destination choices, Windows command notes, and release checksums before extraction. Use the optional [loading-only check](docs/compatibility.en.md#loading-check) to inspect your host; it starts no research.
 
 Copy [the English neutral brief](examples/neutral-brief.en.md) to a personal file and edit it with your actual topic, research goal, evidence scope, constraints, and resources. Keep previous proposals, rankings, architectures, and results out of this first-pass input.
 
-Start a **fresh, non-forked chat** with that brief and a new, scoped output workspace. Invoke the installed Skill using this planning-only request, replacing both paths:
+Start a **fresh, non-forked chat** with that brief and a clean, scoped workspace for this pass. Replace both paths below with actual values. If you choose the [optional preparation helper](docs/installation.en.md#5-start-in-a-fresh-context), prepare first and use its printed `Prepared` root as this pass's workspace. Invoke the installed Skill using this planning-only request:
 
 ```text
 Use $research-discovery-workflow for research discovery and proposal planning.
 
 Neutral brief: /absolute/path/to/my-neutral-brief.md
-New output workspace: /absolute/path/to/new-discovery-workspace
+Output workspace for this pass: /absolute/path/to/new-discovery-workspace
 
 Follow the frozen Q0–Q7 workflow. Keep Q1-T domain-down and Q1-U
 method-up first judgments separate before Q1-S synthesis. Develop
@@ -79,6 +81,8 @@ previous experiments. Stop after the planning deliverable.
 ```
 
 A prepared directory does not create a fresh conversation, clear memory, or restrict file access. Use the [English compatibility guide](docs/compatibility.en.md) to understand what your host supports, including an explicit-read fallback. Repository helpers and onboarding documents are optional wrappers around the frozen workflow.
+
+If this pass already has work and was only interrupted or is waiting for material, use the [same-run resume entry](docs/compatibility.en.md#resume-run) rather than restarting as a new independent exploration.
 
 ## Workflow
 
@@ -112,13 +116,21 @@ Before the comprehensive Q7-B report, Q7-A answers four questions for each retai
 
 Q7-A states the plan's actual readiness: executable within specified conditions, conditional, or incomplete. An unresolved main mechanism or resource gap is partial progress, not a completed Q7-B report. Filled headings and saved files do not establish completion or research quality.
 
-For **two passes**, complete pass 1 through Q7. Start pass 2 in a fresh context with the same neutral brief, withholding pass-1 results through pass-2 Q5-R. Only then supply the authorized pass-1 handoff for Q6. An informed revisit must be described honestly; repeated sources do not provide independent confirmation.
+<a id="second-pass"></a>
+
+**Start pass 2:** complete pass 1 through Q7, then use a fresh context and workspace with the same neutral brief only. Follow the [frozen two-run guidance](docs/QUICKSTART.en.md#two-runs); the user/coordinator keeps pass-1 outputs outside pass-2 inputs and workspace through pass-2 Q5-R. An informed revisit must be described honestly; repeated sources do not provide independent confirmation.
+
+<a id="pending-handoff"></a>
+
+**When `pending_handoff` is reported:** check that pass-2's original Q5 and separate Q5-R repairs are preserved, then supply the authorized pass-1 package with its exact readable file scope, following the [frozen handoff guidance](docs/QUICKSTART.en.md#two-runs). Do not copy the whole prior project tree. Continue this pass through Q6 and later planning rather than restarting independent discovery.
 
 ## Examples
 
 Read the [complete annotated case in English](examples/deadline-information/README_EN.md): public source understanding, concrete construction, separate Q5 original and repairs, formal comparisons, and an insight-rich final explanation. Its [two-pass handoff demonstration](examples/deadline-information/two-pass.md) shows the authorized packet and its delayed delivery, with English notes.
 
 This is an **authored educational reconstruction, not a record of two actual independent runs**. Sources are real; candidate versions and the discovery storyline are teaching constructs. It includes no empirical performance, novelty claim, or evidence that the Workflow improves research quality. The original [short illustrative fragment](examples/README.md) remains available in Chinese.
+
+The [actual public-topic case](docs/use-cases/forecast-uncertainty-2026-10-06/README.md#english-summary) retains public-source discovery, a concrete proposal, substantive paper repairs and comparison planning. Pass 1 remained incomplete on its main resources; pass 2 stopped before research because a host status tool exposed prior results. The user chose to retain this partial case without a replacement run. It is **not a completed two-pass exploration or efficacy validation**; see its [substantive assessment](docs/use-cases/forecast-uncertainty-2026-10-06/ASSESSMENT.md).
 
 A run normally leaves a lightweight `RUN.md` index, independent proposals, separate retrospective and repair records, applicable reconciliation, comparison plans, and a final explanation. Actual scientific content and unresolved dependencies matter more than a file inventory.
 
@@ -139,6 +151,8 @@ If this is a new terminal, select and check `RDW_PYTHON` again before running th
 
 The [actual Codex CLI receipt](docs/validation-runs/2026-10-06-codex-cli/README.md#english-summary) retains six one-attempt fictional runs, sanitized output/artifacts and reported usage. These demonstrate the listed local reading and behavior paths, not internal auto-registration, child isolation or research quality. GUI and other hosts remain untested. Live capture is opt-in and consumes account quota; unit tests and CI never launch it.
 
+For v1.4.0, **105 standard-library tests passed**; [installation calibration and outer checks](docs/validation-runs/2026-10-06-installation/README.md) retain their exact scope. The [native public-topic artifacts](docs/validation-runs/2026-10-06-public-topic/README.md) are not CLI events: full event capture and closed token costs remain unknown, and the failure and partial completion are preserved.
+
 ## Docs
 
 | Read this | For |
@@ -148,7 +162,7 @@ The [actual Codex CLI receipt](docs/validation-runs/2026-10-06-codex-cli/README.
 | [English compatibility](docs/compatibility.en.md) | Host capabilities, fresh-context limits, and optional integrations |
 | [Annotated English case](examples/deadline-information/README_EN.md) | Understand concrete proposals, repairs and delayed handoff |
 | [English neutral brief](examples/neutral-brief.en.md) | Editable optional starting input |
-| [Frozen workflow](docs/FROZEN_WORKFLOW.md) | The scientific v1.0.0 boundary retained by repository v1.3.0 |
+| [Frozen workflow](docs/FROZEN_WORKFLOW.md) | The scientific v1.0.0 boundary retained by repository v1.4.0 |
 | [English quickstart](docs/QUICKSTART.en.md) | The original workflow usage guide |
 | [中文启动提示](docs/STARTER_PROMPTS.zh-CN.md) | Chinese starter prompts |
 | [Validation](docs/VALIDATION.md) | Package checks, fictional fixtures, and claims they cannot establish |

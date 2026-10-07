@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -18,6 +19,12 @@ import sys
 
 
 REPOSITORY = Path(__file__).resolve().parents[4]
+# Reuse the repository's small Markdown parser; importing it performs no checks.
+_MARKDOWN_SPEC = importlib.util.spec_from_file_location(
+    "evidence_markdown", REPOSITORY / "scripts/check_repo.py"
+)
+_MARKDOWN = importlib.util.module_from_spec(_MARKDOWN_SPEC)
+_MARKDOWN_SPEC.loader.exec_module(_MARKDOWN)
 RECORD_FILES = ("invocation.json", "prompt.md", "events.jsonl", "final.md", "result.json")
 USAGE_FIELDS = (
     "input_tokens", "cached_input_tokens", "output_tokens",
@@ -52,7 +59,6 @@ PRIVATE_PATH = re.compile(
     r")"
 )
 FILE_URI = re.compile(r"file://(/[^\s\"'`<>()[\]{},;]+)")
-LOCAL_LINK = re.compile(r"!?\[([^\]\n]+)\]\(([^)\n]+)\)")
 PUBLIC_SYSTEM_PREFIXES = ("/usr/", "/bin/", "/sbin/", "/dev/", "/etc/", "/System/", "/Library/")
 
 
@@ -150,22 +156,24 @@ class Redactor:
         return value
 
     def markdown_text(self, value: str, *, final: bool = False) -> str:
-        value = self.text(value)
-
-        def local_link(match: re.Match[str]) -> str:
-            label, target = match.groups()
-            target = target.strip()
-            if target.startswith(("#", "//")) or (
-                re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", target) and not target.startswith("file:")
+        def local_link(label: str, target: str, original: str, _start: int) -> str:
+            destination = _MARKDOWN._link_destination(target)
+            if destination.startswith(("#", "//")) or (
+                re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", destination) and not destination.startswith("file:")
             ):
-                return match.group()
+                return original
             self.counts["markdown_local_links"] += 1
             if final:
                 self.counts["final_local_markdown_links"] += 1
             fence = "`" * (max((len(run) for run in re.findall(r"`+", target)), default=0) + 1)
             return f"{label} ({fence}{target}{fence})"
 
-        return LOCAL_LINK.sub(local_link, value)
+        # Parse original destinations before replacing absolute roots with
+        # angle-shaped placeholders such as <WORKSPACE>/output/report.md.
+        return self.text("".join(
+            chunk if code else _MARKDOWN.rewrite_prose_links(chunk, local_link)
+            for chunk, code in _MARKDOWN.markdown_chunks(value)
+        ))
 
 
 def usage_fields(value: object) -> dict[str, int | None]:

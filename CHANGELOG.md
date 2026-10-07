@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.0 — 2026-10-07
+
+- Preserved all 13 frozen Workflow v1.0.0 files, original prompts and preparation behavior byte-for-byte.
+- Aligned the optional installer's default with the documented user path `$HOME/.agents/skills`; retained explicit custom/legacy destinations without migration or overwrite. Recorded the version-matched CLI schema check and the lack of actual user-path host-loading evidence.
+- Linked neutral-brief and prepared-root startup instructions, second-pass delayed handoff and same-run resume entries without adding scientific stages.
+- Fixed Markdown handling in the outer exporter/checker: balanced and escaped targets, empty image labels, code spans and blocks, paragraph/list continuations, angle destinations, quoted titles and literal HTML in link-label code. Parse local links before path masking; historical scientific exports remain unchanged.
+- Added checks of hashes declared by published evidence summaries, without reading raw runs or scoring research. The small Markdown helper is not a full renderer or content-security certification.
+- Retained an actual public-topic planning case: pass-1 original/review/repair and partial Q7-A, a disclosed executor interruption/resume, and pass-2 Setup exposure failure before research. The user chose no replacement run; no completed reconciliation, experimental efficacy or closed-cost claim.
+- Passed 105 standard-library tests with Python 3.12.14; retained the earlier 94-test receipts and intermediate diagnostics. Independent focused recheck confirmed the reproduced fixes and all 74 historical published CLI evidence files unchanged.
+
 ## 1.3.0 — 2026-10-06
 
 - Preserved Workflow v1.0.0 bytes; changed no scientific stages, prompts, references or preparation behavior.

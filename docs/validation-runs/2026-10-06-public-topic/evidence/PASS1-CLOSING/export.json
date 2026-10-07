@@ -1,0 +1,140 @@
+{
+  "boundaries": [
+    "Actual saved research artifacts, not a CLI transcript or invented execution events",
+    "The root observed native main-worker creation; child-fork input scopes are executor reports unless otherwise stated",
+    "No research-quality, literature-novelty, experimental-success or two-pass-superiority claim",
+    "Local Markdown links become labels with code paths; primary external URLs remain",
+    "Raw source bytes preserved in a scoped local backup; no PDFs, scratch data or private configuration included"
+  ],
+  "closed_total_tokens": null,
+  "complete_event_trace": "not_captured",
+  "evidence_kind": "native_worker_artifact_export",
+  "format_version": 1,
+  "input_tokens": null,
+  "label": "PASS1-closing-partial-final",
+  "output_tokens": null,
+  "public_files": {
+    "BRIEF.md": "3619037a9cbeb7fbf8b5caa4cec6016a2eca141ae36ebba7539c4a6c80fff1ac",
+    "RUN.md": "90eeac2db66ec016930fa1955cdd1586388a4b82922e2f0b1ecf53068a7a9015",
+    "output/coordinator-reading.md": "8aec11b9f2d3a53f02c316a0549b4538e7df501a818b4e9438ae7a88f1512184",
+    "output/final/CHAT_REPORT.md": "7aa7c2880f93391c43f6aefdd95db539f9c50c03f6969890d1071a3282c11745",
+    "output/final/PRESERVATION.md": "4066f4f720d6c4577a33bcd89082c38d4a92a6673783785de5f063ee132e9938",
+    "output/final/Q7-A.md": "b0e3e970dff89f47542ff469598fd2a3e8c7fa8edf6e73a7c4e5e9c943286060",
+    "output/final/SOURCE_SUPPLEMENT.md": "20f116ea560fac60e52d315ccc01728cba9e643f6920b5de811b8dccd31569d6",
+    "output/q0-contract.md": "8f05c1db9e27fe908cd93a92ad4c2a315dee20e77f7448a68060ece05b668bd6",
+    "output/q1-synthesis.md": "982581afa0725ce2ac68fb02b92db3ef2554633c5e316d1ef66454d4402041cd",
+    "output/q2-q4-construction.md": "345c37e7d0420551044e5d06f320370493aba94c92e4c368821af30ad4d49fee",
+    "output/q5-original/REPORT.md": "3c9616028ac3fb1206ec9203e10fdce5aa2050be2bf22cc356e5f059f1c21b86",
+    "output/q5-repaired/REPORT.md": "931dce87de5a4610fe32ec836e90fdaa10d5a9f5bc63d899db170414f4536b1a",
+    "output/q5-review/REVIEW.md": "26d444b6d893c5447da78558f58799318624314ecc1d4f513e8d9eb7a7980ecb",
+    "output/q6-status.md": "cb2a6aa14f07ac2ef6ee0ab51e7bfa2087dc852bb4aaa548bc3e9d42316c405d",
+    "output/route-t/first-pass.md": "e301f3f9fd8a4eaab075e3e7054c582eb854022b993affc5d2503756387a10ee",
+    "output/route-t/sources.md": "403b01cbe37390f5bf83a1486644294b0bafb1ebd11973513085b7a502b00d0b",
+    "output/route-u/first-pass.md": "d76a017abbd22cc28a191963040355463fb2a4f25f97b4a00f18bd1d34326d4a",
+    "output/route-u/sources.md": "c7a1123d5fb84ac43391e8fe918fd06c3a8a6b56398e69c0da5ce4be5ae63d34"
+  },
+  "public_normalizations": {"removed_extra_blank_line_at_eof": ["output/final/PRESERVATION.md"]},
+  "raw_sources": [
+    {
+      "bytes": 2198,
+      "relative_path": "BRIEF.md",
+      "sha256": "3619037a9cbeb7fbf8b5caa4cec6016a2eca141ae36ebba7539c4a6c80fff1ac"
+    },
+    {
+      "bytes": 7988,
+      "relative_path": "RUN.md",
+      "sha256": "90eeac2db66ec016930fa1955cdd1586388a4b82922e2f0b1ecf53068a7a9015"
+    },
+    {
+      "bytes": 14416,
+      "relative_path": "output/coordinator-reading.md",
+      "sha256": "8aec11b9f2d3a53f02c316a0549b4538e7df501a818b4e9438ae7a88f1512184"
+    },
+    {
+      "bytes": 12669,
+      "relative_path": "output/final/CHAT_REPORT.md",
+      "sha256": "7aa7c2880f93391c43f6aefdd95db539f9c50c03f6969890d1071a3282c11745"
+    },
+    {
+      "bytes": 1815,
+      "relative_path": "output/final/PRESERVATION.md",
+      "sha256": "de4d81cc96ecfdfd1d48788bcbb6665c6ddfe52eb8fe3dd6070ab24bbdd91ef7"
+    },
+    {
+      "bytes": 23635,
+      "relative_path": "output/final/Q7-A.md",
+      "sha256": "b0e3e970dff89f47542ff469598fd2a3e8c7fa8edf6e73a7c4e5e9c943286060"
+    },
+    {
+      "bytes": 7622,
+      "relative_path": "output/final/SOURCE_SUPPLEMENT.md",
+      "sha256": "20f116ea560fac60e52d315ccc01728cba9e643f6920b5de811b8dccd31569d6"
+    },
+    {
+      "bytes": 1317,
+      "relative_path": "output/q0-contract.md",
+      "sha256": "8f05c1db9e27fe908cd93a92ad4c2a315dee20e77f7448a68060ece05b668bd6"
+    },
+    {
+      "bytes": 3854,
+      "relative_path": "output/q1-synthesis.md",
+      "sha256": "982581afa0725ce2ac68fb02b92db3ef2554633c5e316d1ef66454d4402041cd"
+    },
+    {
+      "bytes": 5579,
+      "relative_path": "output/q2-q4-construction.md",
+      "sha256": "345c37e7d0420551044e5d06f320370493aba94c92e4c368821af30ad4d49fee"
+    },
+    {
+      "bytes": 7152,
+      "relative_path": "output/q5-original/REPORT.md",
+      "sha256": "3c9616028ac3fb1206ec9203e10fdce5aa2050be2bf22cc356e5f059f1c21b86"
+    },
+    {
+      "bytes": 14248,
+      "relative_path": "output/q5-repaired/REPORT.md",
+      "sha256": "931dce87de5a4610fe32ec836e90fdaa10d5a9f5bc63d899db170414f4536b1a"
+    },
+    {
+      "bytes": 15797,
+      "relative_path": "output/q5-review/REVIEW.md",
+      "sha256": "26d444b6d893c5447da78558f58799318624314ecc1d4f513e8d9eb7a7980ecb"
+    },
+    {
+      "bytes": 842,
+      "relative_path": "output/q6-status.md",
+      "sha256": "cb2a6aa14f07ac2ef6ee0ab51e7bfa2087dc852bb4aaa548bc3e9d42316c405d"
+    },
+    {
+      "bytes": 11357,
+      "relative_path": "output/route-t/first-pass.md",
+      "sha256": "209daa2a458f782601a16a004a373cc02720060bc5169e89074b496b4bce03cf"
+    },
+    {
+      "bytes": 9827,
+      "relative_path": "output/route-t/sources.md",
+      "sha256": "403b01cbe37390f5bf83a1486644294b0bafb1ebd11973513085b7a502b00d0b"
+    },
+    {
+      "bytes": 11402,
+      "relative_path": "output/route-u/first-pass.md",
+      "sha256": "d76a017abbd22cc28a191963040355463fb2a4f25f97b4a00f18bd1d34326d4a"
+    },
+    {
+      "bytes": 8225,
+      "relative_path": "output/route-u/sources.md",
+      "sha256": "c7a1123d5fb84ac43391e8fe918fd06c3a8a6b56398e69c0da5ce4be5ae63d34"
+    }
+  ],
+  "redactions": {
+    "final_local_markdown_links": 0,
+    "home_paths": 0,
+    "identifier_occurrences": 0,
+    "markdown_local_links": 1,
+    "omitted_history_fields": 0,
+    "other_absolute_paths": 0,
+    "record_paths": 0,
+    "repository_paths": 0,
+    "workspace_paths": 0
+  }
+}

@@ -1,6 +1,7 @@
 """Package structure checks, not proof of scientific quality."""
 
 from pathlib import Path
+import importlib.util
 import re
 import tempfile
 import unittest
@@ -8,6 +9,9 @@ import unittest
 
 REPO = Path(__file__).resolve().parents[1]
 SKILL = REPO / "skills" / "research-discovery-workflow"
+SPEC = importlib.util.spec_from_file_location("package_repo_checker", REPO / "scripts/check_repo.py")
+checker = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(checker)
 
 
 def public_markdown_files(root):
@@ -42,14 +46,12 @@ class PackageTests(unittest.TestCase):
     def test_relative_markdown_links_resolve(self):
         for file in public_markdown_files(REPO):
             text = file.read_text(encoding="utf-8")
-            for target in re.findall(r"\]\(([^)]+)\)", text):
-                if target.startswith(("https://", "http://", "#", "mailto:")):
-                    continue
-                target_path = target.split("#", 1)[0]
-                if not target_path:
+            for _, target in checker._document_targets(text):
+                target_path = checker._local_target(file, target, REPO)
+                if target_path is None:
                     continue
                 with self.subTest(file=file.relative_to(REPO), target=target):
-                    self.assertTrue((file.parent / target_path).is_file())
+                    self.assertTrue(target_path.is_file())
 
     def test_skill_reference_files_are_directly_indexed(self):
         entry = (SKILL / "SKILL.md").read_text(encoding="utf-8")
@@ -84,14 +86,14 @@ class PackageTests(unittest.TestCase):
 
     def test_nested_public_documents_remain_subject_to_validation(self):
         with tempfile.TemporaryDirectory(prefix="discovery-public-depth-") as temporary:
-            root = Path(temporary)
+            root = Path(temporary).resolve()
             path = root / "docs/validation-runs/case/evidence/output/proposal.md"
             path.parent.mkdir(parents=True)
             path.write_text("[Broken local target](missing.md)\n", encoding="utf-8")
             files = list(public_markdown_files(root))
             self.assertEqual(files, [path])
-            target, = re.findall(r"\]\(([^)]+)\)", files[0].read_text(encoding="utf-8"))
-            self.assertFalse((path.parent / target).is_file())
+            (_, target), = checker._document_targets(files[0].read_text(encoding="utf-8"))
+            self.assertFalse(checker._local_target(path, target, root).is_file())
 
     def test_q5_review_precedes_q6_in_entrypoint(self):
         text = (SKILL / "SKILL.md").read_text(encoding="utf-8")

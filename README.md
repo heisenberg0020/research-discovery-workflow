@@ -34,7 +34,7 @@
 
 理解领域关心什么，也理解已有方法实际怎么工作；允许有依据的大胆构思，再把机制、强替代、比较和资源写具体。发现近邻不等于问题已经充分解决，缺少类似论文也不等于选题有价值。
 
-**科研 Workflow 已冻结在 v1.0.0。** 仓库 v1.3.0 只完善展示、安装、示例、实测证据、检查和发行；Skill、引用指令、启动提示词及准备器保持字节不变。[冻结范围与核对 →](docs/FROZEN_WORKFLOW.md)
+**科研 Workflow 已冻结在 v1.0.0。** 仓库 v1.4.0 只完善展示、安装、使用案例、实测证据、检查和发行；Skill、引用指令、启动提示词及准备器保持字节不变。[冻结范围与核对 →](docs/FROZEN_WORKFLOW.md)
 
 <a id="quick-start"></a>
 
@@ -58,17 +58,23 @@ RDW_PYTHON=python3
 "$RDW_PYTHON" scripts/install.py
 ```
 
-安装器默认使用 `CODEX_HOME/skills`，未设置时使用 `$HOME/.codex/skills`；同名目标已存在就停止，不覆盖个人改动。预览不会创建文件。安装后按[只检查加载、不启动研究](docs/compatibility.md#loading-check)核对；自定义安装、更新、Windows 命令说明与 ZIP 解压前校验见[安装说明](docs/installation.md)。
+安装器默认使用当前用户主目录下的 `.agents/skills`（POSIX 写作 `$HOME/.agents/skills`），对齐[官方 Skill 加载表](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills)的 USER 路径；`CODEX_HOME` 不改变本工具的默认值。旧路径或自定义位置仍可用 `--dest` 指定，不自动迁移、删除或覆盖已有安装。预览不会创建文件。
+
+文件安装不等于宿主发现；现有实际回执覆盖项目级 `.agents/skills`，新默认用户级安装/加载未实测。安装后可按[只检查加载、不启动研究](docs/compatibility.md#loading-check)核对；自定义安装、更新、Windows 命令说明与 ZIP 解压前校验见[安装说明](docs/installation.md)。
 
 ### 2 / 给一份中性兴趣文档
 
 复制[中性 brief 示例](examples/neutral-brief.md)并填写自己的领域、关注问题、可协商边界和资源事实。示例只是输入辅助，不是必须新增的科研模板。
 
-在新的、非 fork 对话中提供这份实际文档，并指定干净工作根。首次使用可以直接说：
+在新的、非 fork 对话中提供这份实际文档，并指定本轮的干净工作根。将下面两处路径换成真实值；若选择[可选准备器](docs/installation.md#5-在新上下文里开始)，先完成准备，再把它打印的 `Prepared` 根填作本轮工作根。首次使用可以直接说：
 
 ```text
 使用 $research-discovery-workflow。
-研究兴趣与可协商边界以我附上的中性文档为准，请在指定的新工作根开展完整探索与 planning。
+
+中性兴趣文档：/absolute/path/to/my-neutral-brief.md
+本轮工作根：/absolute/path/to/new-discovery-workspace
+
+研究兴趣与可协商边界以这份中性文档为准，请在指定工作根开展完整探索与 planning。
 
 先落实并说明五步环境隔离，执行 Q0–Q5，再保存原独立快照并完成 Q5-R 复盘与纸面修补。
 本轮没有旧成果，Q6 标 not_applicable。只规划，不执行实验或额外付费调用。
@@ -77,6 +83,8 @@ RDW_PYTHON=python3
 ```
 
 完整第一轮、第二轮和延迟交接提示词见[原版启动文档](docs/STARTER_PROMPTS.zh-CN.md)。安装不创建新对话、不清除记忆；宿主隔离能力有缺口时必须如实说明。
+
+已有本轮进展、只是中断或等待材料时，使用[继续同一轮入口](docs/compatibility.md#resume-run)，不要当作新的独立探索重新开始。
 
 <a id="workflow"></a>
 
@@ -116,11 +124,21 @@ Q7-A 逐方向回答四件事：**近邻已回答到哪里；两种竞争解释�
 | --- | --- | --- |
 | 第一次找研究问题 | 中性 brief + 第一轮提示词 | 当前答案、具体提案、比较与条件规划；无需旧成果 |
 | 从已有成果重新探索 | 先只给中性兴趣，旧成果留到 Q6 | 保留独立版，并得到有依据的对照与合流 |
-| 做两轮后再选题 | 第二轮新上下文仍只用同一 brief；到 Q5-R 后交接第一轮 | 最终合流版，可保留第一轮更好的构思 |
+| 做两轮后再选题 | [第二轮开始](#second-pass)，仍只用同一 brief | 最终合流版，可保留第一轮更好的构思 |
+| 第二轮已到 `pending_handoff` | [指定包的延迟交接](#pending-handoff) | 保留独立版后继续 Q6 与后续规划 |
+| 继续中断的同一轮 | [既有工作根与恢复说明](docs/compatibility.md#resume-run) | 从实际未解决依赖继续，不重抽答案 |
 | 仅准备工作目录 | 冻结的 `prepare_run.py` | 空的 `prepared-not-started` 工作根，不启动研究 |
 | 维护或贡献仓库 | 仓库检查 + [贡献指南](CONTRIBUTING.md) | 文档、冻结范围与辅助工具的实际验证 |
 
 两轮是推荐用法，不是强制。第二轮不天然更好，重复引用同一论文不算独立科学证据。先导可以只提出或跳过；实际实验仍按具体授权开展。
+
+<a id="second-pass"></a>
+
+**第二轮开始：**第一轮完成 Q7 后，另开新上下文与工作根，仍只提供同一份中性 brief；第一轮成果由用户/协调者保管在第二轮输入与工作根之外。直接使用[冻结第二轮启动提示词](docs/STARTER_PROMPTS.zh-CN.md#第二轮另开新对话仍只附同一份兴趣文档)，到第二轮 Q5-R 完成前不交接旧成果。
+
+<a id="pending-handoff"></a>
+
+**收到 `pending_handoff`：**先核对第二轮 Q5 原件与 Q5-R 修订已保留，再使用[冻结指定交接请求](docs/STARTER_PROMPTS.zh-CN.md#第二轮完成-q5-r-后的指定交接)，填明本次允许读取的文件范围并交付该包，不复制整个第一轮项目树。随后承接这轮继续 Q6 与后续规划，不重新做独立探索。
 
 <a id="examples"></a>
 
@@ -131,6 +149,8 @@ Q7-A 逐方向回答四件事：**近邻已回答到哪里；两种竞争解释�
 [截止前信息价值：完整注释案例](examples/deadline-information/README.md)展示：怎样从兴趣形成具体问题，来源怎样改变理解，Q5-R 实际修正了哪项关系，以及怎样形成比较方案和洞察式报告。[双轮延迟交接演示](examples/deadline-information/two-pass.md)说明何时、以什么范围引入第一轮，以及为什么第二轮不必胜出。
 
 完整案例使用可核对的公开来源，但其探索轨迹和双轮版本是**原创教学构造，不是两次真实独立运行的记录**；不包含实验成绩，不证明新颖性或 Workflow 有效性，也不是必须照抄的题目或模板。
+
+另有[预测不确定性与可靠决策：实际公开专题案例](docs/use-cases/forecast-uncertainty-2026-10-06/README.md)。它保留公开调研、原 Q5、实质纸面修补与比较规划，也如实保留第一轮主资源未就绪、第二轮 Setup 时工具带入旧结论的失败。用户选择保留部分案例、不重做；**这不是已完成的双轮探索或科研效果验证**。[实质复盘 →](docs/use-cases/forecast-uncertainty-2026-10-06/ASSESSMENT.md)
 
 准备器预留原独立版、修订版和最终版目录。报告应保留定义机制，并解释已有答案、具体剩余机会、严肃替代和判别路线；可以使用少数连贯文档，不需要为了每个标题单独建文件。**文件供核查，不能替代对话中的洞察式讲解。**
 
@@ -150,6 +170,8 @@ Q7-A 逐方向回答四件事：**近邻已回答到哪里；两种竞争解释�
 首版做过少量虚构材料行为试走，发现过范围与状态判断问题，并记录了修正及未覆盖范围。[验证记录 →](docs/VALIDATION.md)
 
 新增[实际 Codex CLI 读取与行为回执](docs/validation-runs/2026-10-06-codex-cli/README.md)：公开六次单次调用的脱敏输出、修订产物与用量。它们支持所测的小场景行为，但不认证内部自动注册、子代理独立隔离或现实科研质量；GUI 与其他客户端未测。实测工具需主动执行，会消耗账户额度，普通检查不会运行它们。
+
+v1.4.0 的第四批外围回归共 **105 项测试通过**，并保存[安装路径与工具修复范围](docs/validation-runs/2026-10-06-installation/README.md)。第五批的[原生公开专题产物](docs/validation-runs/2026-10-06-public-topic/README.md)不是 CLI 事件记录：完整事件流和闭合 token 成本未知，隔离失败与部分完成状态没有被隐藏。
 
 **这些测试不证明选题质量、新颖性、科研成功率、两轮优越性或宿主隔离效果。** 七项上游能力是可选接入，没有捆绑其脚本或服务；其他客户端的加载与权限按[实际兼容范围](docs/compatibility.md)说明。
 

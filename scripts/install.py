@@ -56,10 +56,8 @@ def _validate_source(skill: Path, license_path: Path) -> None:
 
 
 def default_destination() -> Path:
-    codex_directory = os.environ.get("CODEX_HOME")
-    if codex_directory:
-        return Path(codex_directory).expanduser() / "skills"
-    return Path.home() / ".codex" / "skills"
+    """Use Codex's documented user-skill root; custom roots stay explicit."""
+    return Path.home() / ".agents" / "skills"
 
 
 def install_skill(destination: Path | None = None, *, dry_run: bool = False) -> Path:
@@ -109,7 +107,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--dest", type=Path,
-        help="Skills directory (default: CODEX_HOME/skills, otherwise ~/.codex/skills)",
+        help="Skills directory (default: ~/.agents/skills; use --dest for custom or legacy locations)",
     )
     parser.add_argument("--dry-run", action="store_true", help="Validate and report; write nothing")
     return parser.parse_args(argv)

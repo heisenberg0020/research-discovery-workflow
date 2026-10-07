@@ -9,6 +9,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from unittest import mock
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -138,7 +139,163 @@ class RepositoryCheckTests(unittest.TestCase):
     def test_external_fragment_and_fenced_example_targets_are_ignored(self):
         (self.root / "docs/guide.md").write_text(
             '[web](https://example.invalid/a) [mail](mailto:example@example.invalid) [section](#here)\n'
-            '```markdown\n[example](missing.md)\n```\n', encoding="utf-8")
+            '```markdown\n[example](missing.md)\n```\n'
+            '~~~text\n[example](also-missing.md)\n~~~\n'
+            '`[inline](missing.md)` ``[inline](another-missing.md)``\n\n'
+            '    [indented](missing.md)\n\t[tabbed](missing.md)\n', encoding="utf-8")
+        self.assertEqual(checker.check_repository(self.root), [])
+
+    def test_balanced_link_filenames_and_bad_prose_targets_keep_their_line_numbers(self):
+        (self.root / "docs/report(1).md").write_text("Fictional result.\n", encoding="utf-8")
+        text = (
+            '```text\n[code](not-a-file.md)\n```\n'
+            '[balanced](report(1).md) [escaped](report\\(1\\).md)\n'
+            '`[inline](not-a-file.md)`\n[bad prose](missing(2).md)\n'
+        )
+        (self.root / "docs/guide.md").write_text(text, encoding="utf-8")
+        self.assertEqual(checker._document_targets(text), [
+            (4, "report(1).md"), (4, "report(1).md"), (6, "missing(2).md"),
+        ])
+        findings = self.findings()
+        self.assertIn("docs/guide.md:6: missing local link or asset: missing(2).md", findings)
+        self.assertNotIn("report(1).md", findings)
+        self.assertNotIn("not-a-file.md", findings)
+
+    def test_list_continuation_links_are_checked_but_list_code_remains_literal(self):
+        (self.root / "docs/report(1).md").write_text("Fictional result.\n", encoding="utf-8")
+        text = (
+            '1. Parent item\n\n'
+            '    [report](report(1).md)\n\n'
+            '        [code](not-a-file.md)\n\n'
+            '    [bad](missing.md)\n\n'
+            '    ```text\n    [fenced code](another-missing.md)\n    ```\n'
+        )
+        (self.root / "docs/guide.md").write_text(text, encoding="utf-8")
+        self.assertEqual(checker._document_targets(text), [(3, "report(1).md"), (7, "missing.md")])
+        findings = self.findings()
+        self.assertIn("docs/guide.md:7: missing local link or asset: missing.md", findings)
+        self.assertNotIn("not-a-file.md", findings)
+        self.assertNotIn("another-missing.md", findings)
+
+    def test_link_label_code_is_not_html_but_rendered_label_assets_are_checked(self):
+        text = (
+            '[Literal `<img src="missing.svg">`](guide.md)\n'
+            '[Real <img src="images/banner.svg">](guide.md "<img src=title-only.svg>")\n'
+        )
+        (self.root / "docs/guide.md").write_text(text, encoding="utf-8")
+        self.assertEqual(checker._document_targets(text), [
+            (1, "guide.md"), (2, "guide.md"), (2, "images/banner.svg"),
+        ])
+        self.assertEqual(checker.check_repository(self.root), [])
+
+    def test_empty_image_labels_still_check_the_asset(self):
+        text = '![](missing.svg) [](missing.md)\n'
+        (self.root / "docs/guide.md").write_text(text, encoding="utf-8")
+        self.assertEqual(checker._document_targets(text), [(1, "missing.svg"), (1, "missing.md")])
+        self.assertIn("missing local link or asset: missing.svg", self.findings())
+
+    def test_indented_paragraph_continuation_is_not_a_code_block(self):
+        text = 'Paragraph\n    [visible](missing.md)\n\n    [literal](not-a-file.md)\n'
+        (self.root / "docs/guide.md").write_text(text, encoding="utf-8")
+        self.assertEqual(checker._document_targets(text), [(2, "missing.md")])
+        self.assertIn("docs/guide.md:2: missing local link or asset: missing.md", self.findings())
+        self.assertNotIn("not-a-file.md", self.findings())
+
+    def test_brackets_inside_label_code_spans_do_not_unbalance_links(self):
+        text = '[Literal `[`](missing.md) [Literal ``]`[``](other.md)\n'
+        (self.root / "docs/guide.md").write_text(text, encoding="utf-8")
+        self.assertEqual(checker._document_targets(text), [(1, "missing.md"), (1, "other.md")])
+        self.assertIn("missing local link or asset: missing.md", self.findings())
+
+    def test_angle_destinations_can_contain_unbalanced_parentheses(self):
+        text = '[paper](<https://example.invalid/paper)>) [local](<missing(.md>)\n'
+        (self.root / "docs/guide.md").write_text(text, encoding="utf-8")
+        self.assertEqual(checker._document_targets(text), [
+            (1, "https://example.invalid/paper)"), (1, "missing(.md"),
+        ])
+        self.assertIn("missing local link or asset: missing(.md", self.findings())
+        self.assertNotIn("example.invalid", self.findings())
+
+    def test_quoted_titles_have_separate_delimiters_from_destinations(self):
+        text = '[report](missing.md "A( title") [report](other.md \'A) title\')\n'
+        (self.root / "docs/guide.md").write_text(text, encoding="utf-8")
+        self.assertEqual(checker._document_targets(text), [(1, "missing.md"), (1, "other.md")])
+        self.assertIn("missing local link or asset: other.md", self.findings())
+
+    def evidence_fixture(self):
+        case = self.root / "docs/validation-runs/fictional-run/evidence/CASE"
+        case.mkdir(parents=True)
+        files = {"final.md": b"Fictional scientific limitation.\n", "output/result.txt": b"Fictional estimate.\n"}
+        for name, data in files.items():
+            path = case / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+        manifest = {"format_version": 1, "public_files": {
+            name: hashlib.sha256(data).hexdigest() for name, data in files.items()
+        }}
+        path = case / "export.json"
+        path.write_text(json.dumps(manifest), encoding="utf-8")
+        return case, path, manifest
+
+    def test_public_evidence_hashes_detect_changed_and_missing_declared_files(self):
+        case, _path, _manifest = self.evidence_fixture()
+        self.assertEqual(checker.check_repository(self.root), [])
+        (case / "final.md").write_bytes(b"Changed fictional scientific limitation.\n")
+        (case / "output/result.txt").unlink()
+        findings = self.findings()
+        self.assertIn("public evidence SHA256 mismatch: final.md", findings)
+        self.assertIn("declared public evidence file is missing: output/result.txt", findings)
+
+    def test_evidence_summary_itself_is_excluded_and_invalid_summaries_are_actionable(self):
+        _case, path, manifest = self.evidence_fixture()
+        manifest["public_files"]["export.json"] = "0" * 64
+        path.write_text(json.dumps(manifest), encoding="utf-8")
+        self.assertIn("public_files must exclude the summary itself", self.findings())
+        for malformed in ("{invalid", "[]", '{"format_version":1,"public_files":{}}'):
+            with self.subTest(malformed=malformed):
+                path.write_text(malformed, encoding="utf-8")
+                self.assertIn("export.json:", self.findings())
+
+    def test_evidence_invalid_paths_and_hashes_do_not_read_outside_case(self):
+        _case, path, _manifest = self.evidence_fixture()
+        original_read = Path.read_bytes
+
+        def scoped_read(candidate):
+            if not candidate.resolve().is_relative_to(self.root.resolve()):
+                raise AssertionError("Checker read outside the fictional package")
+            return original_read(candidate)
+
+        for name, digest in (("../../outside.txt", "0" * 64), ("/private/fixture.txt", "0" * 64),
+                             (".", "0" * 64), ("runs/raw.jsonl", "0" * 64), ("final.md", "invalid-hash")):
+            with self.subTest(name=name):
+                path.write_text(json.dumps({"format_version": 1, "public_files": {name: digest}}), encoding="utf-8")
+                with mock.patch.object(Path, "read_bytes", new=scoped_read):
+                    self.assertIn("invalid public evidence", self.findings())
+
+    def test_evidence_symlinks_are_rejected_without_following_them(self):
+        case, path, manifest = self.evidence_fixture()
+        (case / "linked.txt").symlink_to(self.root / "LICENSE")
+        manifest["public_files"]["linked.txt"] = "0" * 64
+        path.write_text(json.dumps(manifest), encoding="utf-8")
+        self.assertIn("public evidence must be a local regular file: linked.txt", self.findings())
+
+    def test_evidence_rejects_drive_and_stream_syntax_in_every_component(self):
+        _case, path, _manifest = self.evidence_fixture()
+        for name in ("output/D:/outside.txt", "output/D:outside.txt", "output/file.txt:stream"):
+            with self.subTest(name=name):
+                path.write_text(json.dumps({"format_version": 1, "public_files": {name: "0" * 64}}), encoding="utf-8")
+                self.assertIn("invalid public evidence path", self.findings())
+
+    def test_evidence_surrogate_filename_is_an_issue_not_an_uncaught_error(self):
+        _case, path, _manifest = self.evidence_fixture()
+        path.write_text(json.dumps({"format_version": 1, "public_files": {"\ud800": "0" * 64}}), encoding="utf-8")
+        self.assertIn("invalid public evidence path", self.findings())
+
+    def test_evidence_checks_ignore_raw_and_non_evidence_export_files(self):
+        for name in ("runs/private/export.json", "docs/validation-runs/fictional-run/fixtures/export.json"):
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("{not a public evidence summary", encoding="utf-8")
         self.assertEqual(checker.check_repository(self.root), [])
 
     def test_current_checkout_passes(self):

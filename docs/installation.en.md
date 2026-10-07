@@ -13,11 +13,11 @@ git clone https://github.com/heisenberg0020/research-discovery-workflow.git
 cd research-discovery-workflow
 ```
 
-This gets the default branch. To pin v1.3.0, use `git clone --branch v1.3.0 --depth 1 https://github.com/heisenberg0020/research-discovery-workflow.git`. Replace the tag if you choose another published version.
+This gets the default branch. To pin v1.4.0, use `git clone --branch v1.4.0 --depth 1 https://github.com/heisenberg0020/research-discovery-workflow.git`. Replace the tag if you choose another published version.
 
 ### Release ZIP: check before extracting
 
-Download the custom assets `research-discovery-workflow-1.3.0.zip`, `manifest.json`, and `SHA256SUMS` from the **same version** on [Releases](https://github.com/heisenberg0020/research-discovery-workflow/releases), keeping all three in one directory. For another version, replace `1.3.0` in every ZIP and directory name below with the downloaded version. GitHub's automatic “Source code (zip)” is a different archive and does not use this asset layout.
+Download the custom assets `research-discovery-workflow-1.4.0.zip`, `manifest.json`, and `SHA256SUMS` from the **same version** on [Releases](https://github.com/heisenberg0020/research-discovery-workflow/releases), keeping all three in one directory. For another version, replace `1.4.0` in every ZIP and directory name below with the downloaded version. GitHub's automatic “Source code (zip)” is a different archive and does not use this asset layout.
 
 In the download directory, use one of these commands. **Both the ZIP and manifest must pass before extraction.**
 
@@ -36,11 +36,11 @@ If the command is unavailable, a file is missing, or a check fails, resolve that
 After the checks pass, use your archive tool, or:
 
 ```sh
-unzip research-discovery-workflow-1.3.0.zip
-cd research-discovery-workflow-1.3.0
+unzip research-discovery-workflow-1.4.0.zip
+cd research-discovery-workflow-1.4.0
 ```
 
-The archive's top-level directory is `research-discovery-workflow-1.3.0/`; its Skill entry is `skills/research-discovery-workflow/SKILL.md`. Keep the three downloaded assets outside the extracted directory. Download checksum checks require no source Git repository. Windows users can compare both SHA-256 values with an available checksum tool; these shell instructions and host loading are not Windows compatibility certification.
+The archive's top-level directory is `research-discovery-workflow-1.4.0/`; its Skill entry is `skills/research-discovery-workflow/SKILL.md`. Keep the three downloaded assets outside the extracted directory. Download checksum checks require no source Git repository. Windows users can compare both SHA-256 values with an available checksum tool; these shell instructions and host loading are not Windows compatibility certification.
 
 ## 2. Select and check Python
 
@@ -62,18 +62,20 @@ Run from the cloned or extracted package root, reusing the checked `RDW_PYTHON` 
 "$RDW_PYTHON" scripts/install.py
 ```
 
-The default destination is `$CODEX_HOME/skills` when `CODEX_HOME` is set, otherwise `$HOME/.codex/skills`. The helper does not change environment variables or global host configuration. Preview writes nothing; installation copies files.
+The default destination is `.agents/skills` in the current user's home directory (`$HOME/.agents/skills` in POSIX notation), matching the USER location in the [official Skill loading table](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills). `CODEX_HOME` does not change this helper's default. The helper does not change environment variables or global host configuration. Preview writes nothing; installation copies files.
 
 An existing `research-discovery-workflow` target, including a symlink, causes refusal rather than replacement or automatic upgrade. The installed payload contains the frozen entry, references, metadata, and preparation helper, plus the repository MIT license. It excludes examples, tests, and research results.
 
-To choose a different destination:
+Use `--dest` explicitly for a project-level, custom, or legacy destination. It can still name an actual `.codex/skills` or `CODEX_HOME/skills` directory; this change does not establish that legacy host loading is unsupported:
 
 ```sh
 "$RDW_PYTHON" scripts/install.py --dest ./local-skills --dry-run
 "$RDW_PYTHON" scripts/install.py --dest ./local-skills
 ```
 
-The resulting entry is `./local-skills/research-discovery-workflow/SKILL.md`. Whether a host discovers a custom destination depends on that host. Reload or restart its Skill list as supported. A successful copy does not establish successful host loading.
+The resulting entry is `./local-skills/research-discovery-workflow/SKILL.md`. Whether a host discovers a custom destination depends on that host. Reload or restart its Skill list as supported. A successful copy does not establish successful host loading. Existing actual receipts cover project-level `.agents/skills`; no real installation into the personal default user directory or host-loading check of that path was performed here.
+
+See the [installation calibration receipt](validation-runs/2026-10-06-installation/README.md) for the path decision, version-matched no-model schema inspection, and explicit untested boundaries.
 
 ## 4. Optional: check reading only
 
@@ -92,9 +94,9 @@ If automatic loading is unavailable, use the [explicit-read fallback](compatibil
 
 ## 5. Start in a fresh context
 
-Copy the [English neutral brief](../examples/neutral-brief.en.md) to a personal file and fill it with your real interests, boundaries, and resource facts. Start a fresh, non-forked chat, supply the brief and a clean output workspace, and use the [frozen English first-run prompt](QUICKSTART.en.md#one-run). Installation and the optional reading check do not start research. State any actual limitations on memory or file access.
+Copy the [English neutral brief](../examples/neutral-brief.en.md) to a personal file, fill it with your real interests, boundaries, and resource facts, and note its actual path and this pass's workspace.
 
-Optionally prepare a workspace. The parent must exist and the target must not exist:
+If you choose the optional helper, run it once **before** sending the start request; it is not required. The parent must exist and the target must not exist:
 
 ```sh
 mkdir -p ./runs
@@ -102,20 +104,24 @@ mkdir -p ./runs
   --root ./runs/pass-1 --brief ./my-neutral-brief.md --pass-number 1
 ```
 
-Replace the brief filename with your completed file. This path runs from the package root; use the actual installed path when invoking an installed copy. Success means preparation only: **research has not started**. The frozen English guide covers two passes, delayed handoff, and first use without prior results.
+Replace the brief filename with your completed file. This path runs from the package root; use the actual installed path when invoking an installed copy. Success means preparation only: **research has not started**.
+
+In a fresh, non-forked chat, fill the actual brief and workspace paths into the [README start request](../README_EN.md#quick-start), or supply them with the [frozen English first-run prompt](QUICKSTART.en.md#one-run). If you used the helper, use its printed `Prepared` root; otherwise specify your own new workspace. Do not run the helper again on an existing pass directory. Installation and the reading check do not start research; state actual isolation limits.
+
+The [pass-2 start](../README_EN.md#second-pass) and [`pending_handoff` handoff entry](../README_EN.md#pending-handoff) connect directly to existing frozen guidance. For interrupted existing work, use the [same-run resume entry](compatibility.en.md#resume-run).
 
 ## Updates and existing copies
 
 Repository distribution versions retain the byte-frozen Workflow v1.0.0. Updating an existing Skill does not add research capabilities; see the [changelog](../CHANGELOG.md).
 
-If you choose to replace an installation, first inspect and back up any personal changes, then choose the new directory and switch method. The installer has no `--force` and does not delete the old copy. You can try a new custom destination first; the host may need its own discovery configuration.
+The default-path change does not automatically migrate, delete, or overwrite old installations. The frozen English guide retains its original legacy-path wording; use this page for current helper installation commands. If you choose to replace an installation, first inspect and back up any personal changes, then choose the new directory and switch method. The installer has no `--force` and does not delete the old copy. You can try a new custom destination first; the host may need its own discovery configuration.
 
 ## Optional inventory verification and maintainer builds
 
 After checking download hashes, extracting, and inspecting the local helper, you can check the archive's complete file inventory. If the three downloaded assets are one directory above the extracted root:
 
 ```sh
-"$RDW_PYTHON" scripts/build_release.py --verify ../research-discovery-workflow-1.3.0.zip
+"$RDW_PYTHON" scripts/build_release.py --verify ../research-discovery-workflow-1.4.0.zip
 ```
 
 `--verify` requires no Git repository, performs no extraction or installation, and starts no research. It checks archive consistency with the external manifest, not authenticity or research quality.
@@ -126,8 +132,8 @@ Only **building** a release requires Git, clean committed source, an existing pa
 "$RDW_PYTHON" scripts/check_repo.py
 "$RDW_PYTHON" -m unittest discover -s tests -v
 mkdir -p ./dist
-"$RDW_PYTHON" scripts/build_release.py --output ./dist/v1.3.0
-"$RDW_PYTHON" scripts/build_release.py --verify ./dist/v1.3.0/research-discovery-workflow-1.3.0.zip
+"$RDW_PYTHON" scripts/build_release.py --output ./dist/v1.4.0
+"$RDW_PYTHON" scripts/build_release.py --verify ./dist/v1.4.0/research-discovery-workflow-1.4.0.zip
 ```
 
 The build takes its version from `VERSION`; match the example paths to that actual version. It includes only committed public files, excluding local runs and caches.

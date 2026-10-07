@@ -1,0 +1,50 @@
+{
+  "boundaries": [
+    "Actual saved research artifacts, not a CLI transcript or invented execution events",
+    "The root observed native main-worker creation; child-fork input scopes are executor reports unless otherwise stated",
+    "No research-quality, literature-novelty, experimental-success or two-pass-superiority claim",
+    "Local Markdown links become labels with code paths; primary external URLs remain",
+    "Raw source bytes preserved in a scoped local backup; no PDFs, scratch data or private configuration included"
+  ],
+  "closed_total_tokens": null,
+  "complete_event_trace": "not_captured",
+  "evidence_kind": "native_worker_artifact_export",
+  "format_version": 1,
+  "input_tokens": null,
+  "label": "PASS2-setup-failed-exposure",
+  "output_tokens": null,
+  "public_files": {
+    "BRIEF.md": "3619037a9cbeb7fbf8b5caa4cec6016a2eca141ae36ebba7539c4a6c80fff1ac",
+    "RUN.md": "d50a9f6e178fe827688617ba440c364ce9a932b4c4c3f5d36e4a510abd452f4e",
+    "output/INDEPENDENT_CHAT_REPORT.md": "286500fa52f17c63c4b441852d864d0a38fbdb239093b0d4dfea70bd89eefa74"
+  },
+  "public_normalizations": {"removed_extra_blank_line_at_eof": ["RUN.md"]},
+  "raw_sources": [
+    {
+      "bytes": 2198,
+      "relative_path": "BRIEF.md",
+      "sha256": "3619037a9cbeb7fbf8b5caa4cec6016a2eca141ae36ebba7539c4a6c80fff1ac"
+    },
+    {
+      "bytes": 2513,
+      "relative_path": "RUN.md",
+      "sha256": "5285a3cc717b247260c26d50b698c8fcf2c3ec15bcbb378989989808665fa60e"
+    },
+    {
+      "bytes": 1944,
+      "relative_path": "output/INDEPENDENT_CHAT_REPORT.md",
+      "sha256": "286500fa52f17c63c4b441852d864d0a38fbdb239093b0d4dfea70bd89eefa74"
+    }
+  ],
+  "redactions": {
+    "final_local_markdown_links": 0,
+    "home_paths": 0,
+    "identifier_occurrences": 0,
+    "markdown_local_links": 0,
+    "omitted_history_fields": 0,
+    "other_absolute_paths": 0,
+    "record_paths": 0,
+    "repository_paths": 0,
+    "workspace_paths": 1
+  }
+}
